@@ -1,0 +1,27 @@
+@media (max-width:1200px){
+} 
+
+
+@media (max-width:980px){
+.container,
+.block .container {padding: 0 15px;}
+}
+
+
+@media (max-width:767px){
+}
+
+
+@media (max-width:480px){
+.logo {margin-bottom: 20px;text-align: center;width: 100%;}
+.links-sec {text-align: center;width: 100%;}
+.links-sec > a {display: inline-block;float: none;}
+.pagetop-content > h1 {font-size: 25px;}
+.pagetop-content > p {font-size: 14px;}
+.sec-title > h2 {font-size: 20px;}
+.sec-title > p {font-size: 14px;}
+.lastsec-content > h3 {font-size: 22px;margin-bottom: 20px;}
+.lastsec-content > p {font-size: 14px;}
+.purchase-btn {font-size: 15px;}
+
+}

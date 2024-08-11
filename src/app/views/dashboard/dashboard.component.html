@@ -25,11 +25,11 @@
                                 <th class="bg-body-tertiary text-center">
                                     <svg cIcon name="cilPeople"></svg>
                                 </th>
-                                <th class="bg-body-tertiary">User</th>
-                                <th class="bg-body-tertiary">Email</th>
-                                <th class="bg-body-tertiary">Company</th>
-                                <th class="bg-body-tertiary text-center">Preferences</th>
-                                <th class="bg-body-tertiary text-center">Status</th>
+                                <th class="bg-body-tertiary">Kullanıcı</th>
+                                <th class="bg-body-tertiary">E-Posta</th>
+                                <th class="bg-body-tertiary">Şirketi</th>
+                                <th class="bg-body-tertiary text-center">Uygulama Tercihleri</th>
+                                <th class="bg-body-tertiary text-center">Durumu</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,9 +47,9 @@
                                 <td>{{ user.companyName }}</td>
                                 <td class="text-center">
                                     <div>Language: {{ user.preferences.language ? 'Türkçe' : 'İngilizce' }}</div>
-                                    <div>Night Mode: {{ user.preferences.nightMode ? 'Enabled' : 'Disabled' }}</div>
+                                    <div>Night Mode: {{ user.preferences.nightMode ? 'Açık' : 'Kapalı' }}</div>
                                 </td>
-                                <td class="text-center">{{ user.isActive ? 'Active' : 'Inactive' }}</td>
+                                <td class="text-center">{{ user.isActive ? 'Aktif' : 'Pasif' }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -65,15 +65,15 @@
                                 [striped]="true"
                                 align="middle"
                                 cTable
-                                class="mb-0 border"
-                        >
+                                class="mb-0 border">
+
                             <thead class="text-nowrap text-truncate">
                             <tr>
-                                <th class="bg-body-tertiary">Machine ID</th>
-                                <th class="bg-body-tertiary">Owner Name</th>
-                                <th class="bg-body-tertiary">Machine Type</th>
-                                <th class="bg-body-tertiary">Created At</th>
-                                <th class="bg-body-tertiary">Last Update</th>
+                                <th class="bg-body-tertiary">Makine ID</th>
+                                <th class="bg-body-tertiary">Makine Sahibi</th>
+                                <th class="bg-body-tertiary">Makine Türü</th>
+                                <th class="bg-body-tertiary">Sisteme Eklenme Tarihi</th>
+                                <th class="bg-body-tertiary">Son Güncelleme</th>
                             </tr>
                             </thead>
                             <tbody>

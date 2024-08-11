@@ -1,0 +1,41 @@
+<c-row>
+    <c-col lg="4">
+        <c-card color="primary" textColor="white" class="mb-3">
+            <c-card-header>Kullanıcı</c-card-header>
+            <c-card-body class="bg-gradient">
+                <h5 cCardTitle>{{ totalUsers }} Toplam Kullanıcı</h5>
+                <button color="primary" cButton class="shadow">Kullanıcıları Görüntüle</button>
+            </c-card-body>
+        </c-card>
+    </c-col>
+
+    <c-col lg="4">
+        <c-card color="info" textColor="white" class="mb-3">
+            <c-card-header>Makine</c-card-header>
+            <c-card-body class="bg-gradient">
+                <h5 cCardTitle>{{ totalMachines }} Toplam Makine</h5>
+                <button color="info" cButton class="shadow">Makineleri Görüntüle</button>
+            </c-card-body>
+        </c-card>
+    </c-col>
+
+    <c-col lg="4">
+        <c-card color="warning" textColor="dark" class="mb-3">
+            <c-card-header>Mühendis</c-card-header>
+            <c-card-body class="bg-gradient">
+                <h5 cCardTitle>{{ engineerCount }} Toplam Mühendis</h5>
+                <button color="warning" cButton class="shadow">Mühendisleri Görüntüle</button>
+            </c-card-body>
+        </c-card>
+    </c-col>
+
+    <c-col lg="4">
+        <c-card color="danger" textColor="white" class="mb-3">
+            <c-card-header>Teknisyen</c-card-header>
+            <c-card-body class="bg-gradient">
+                <h5 cCardTitle>{{ technicianCount }} Toplam Teknisyen</h5>
+                <button color="danger" cButton class="shadow">Teknisyenleri Görüntüle</button>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

@@ -1,27 +1,30 @@
-### STAGE 1: Build ###
-FROM node:9-alpine as builder
+# syntax=docker/dockerfile:1.4
 
-COPY package.json package-lock.json ./
-
-RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
-
-RUN npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
+FROM --platform=$BUILDPLATFORM node:18-alpine as builder
 
 WORKDIR /ng-app
 
+RUN npm install -g @angular/cli
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
+CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-RUN $(npm bin)/ng build --prod
+FROM builder as dev-envs
 
+RUN <<EOF
+apt-get update
+apt-get install -y --no-install-recommends git
+EOF
 
-### STAGE 2: Setup ###
+RUN <<EOF
+useradd -s /bin/bash -m vscode
+groupadd docker
+usermod -aG docker vscode
+EOF
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
 
-FROM nginx:1.13.3-alpine
-
-COPY nginx/default.conf /etc/nginx/conf.d/
-
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY --from=builder /ng-app/dist /usr/share/nginx/html
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]

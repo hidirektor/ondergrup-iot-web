@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {catchError, Observable, of} from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
 import {ProfileResponse} from "../models/profile-response.model";
 import {LoginResponse} from "../models/login-response.model";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,28 @@ export class ApiService {
 
   getProfile(token: string, userID: string): Observable<ProfileResponse> {
     const headers = this.getAuthHeaders(token);
-    return this.http.post<ProfileResponse>(`${this.apiUrl}/user/getProfile`, { userID }, { headers });
+    return this.http.post<ProfileResponse>(`${this.apiUrl}/user/getProfile`, { userID }, { headers })
+        .pipe(
+            map((response: any) => {
+              if (response && response.payload) {
+                const user = response.payload.user;
+                const userPreferences = response.payload.userPreferences;
+
+                this.cookieService.set('userID', user.userID);
+                this.cookieService.set('userName', user.userName);
+                this.cookieService.set('userType', user.userType);
+                this.cookieService.set('nameSurname', user.nameSurname);
+                this.cookieService.set('eMail', user.eMail);
+                this.cookieService.set('phoneNumber', user.phoneNumber);
+                this.cookieService.set('companyName', user.companyName);
+                this.cookieService.set('createdAt', user.createdAt.toString());
+                this.cookieService.set('language', userPreferences.language.toString());
+                this.cookieService.set('nightMode', userPreferences.nightMode.toString());
+              }
+              return response;
+            }),
+            catchError(this.handleError)
+        );;
   }
 
   updatePreferences(token: string, userID: string, preferencesData: any): Observable<any> {
@@ -119,5 +141,15 @@ export class ApiService {
   getAllMachines(token: string): Observable<any> {
     const headers = this.getAuthHeaders(token);
     return this.http.get(`${this.apiUrl}/authorized/getAllMachines`, { headers });
+  }
+
+  private handleError(error: any): Observable<never> {
+    let errorMessage = 'An error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(() => new Error(errorMessage));
   }
 }

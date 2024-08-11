@@ -7,7 +7,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
-    volumes:
-      - ./angular:/ng-app
-      - /ng-app/node_modules
     restart: always

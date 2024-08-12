@@ -1,41 +1,69 @@
 <div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
-  <c-container>
-    <c-row class="justify-content-center">
-      <c-col lg="7" md="9" xl="6">
-        <c-card class="mx-4">
-          <c-card-body class="p-4">
-            <form cForm>
-              <h1>Register</h1>
-              <p class="text-body-secondary">Create your account</p>
-              <c-input-group class="mb-3">
+    <c-container>
+        <c-row class="justify-content-center">
+            <c-col lg="7" md="9" xl="6">
+                <c-card class="mx-4">
+                    <c-card-body class="p-4">
+                        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                            <h1>Kayıt Ol</h1>
+                            <p class="text-body-secondary">Hesabınızı Oluşturun</p>
+
+                            <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>
                 </span>
-                <input autoComplete="name" cFormControl placeholder="Username" />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>&#64;</span>
-                <input autoComplete="email" cFormControl placeholder="Email" />
-              </c-input-group>
-              <c-input-group class="mb-3">
+                                <input formControlName="userName" autoComplete="name" cFormControl placeholder="Kullanıcı Adı" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                                <input formControlName="nameSurname" autoComplete="name" cFormControl placeholder="İsim Soyisim" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-3">
+                                <span cInputGroupText>&#64;</span>
+                                <input formControlName="eMail" autoComplete="email" cFormControl placeholder="E-Posta Adresi" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilPaperPlane"></svg>
+                </span>
+                                <input formControlName="phoneNumber" autoComplete="tel" cFormControl placeholder="Telefon Numarası" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilCode"></svg>
+                </span>
+                                <input formControlName="companyName" autoComplete="organization" cFormControl placeholder="Şirket İsmi" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="new-password" cFormControl placeholder="Password" type="password" />
-              </c-input-group>
-              <c-input-group class="mb-4">
+                                <input formControlName="password" autoComplete="new-password" cFormControl placeholder="Şifre" type="password" />
+                            </c-input-group>
+
+                            <c-input-group class="mb-4">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="new-password" cFormControl placeholder="Repeat password" type="password" />
-              </c-input-group>
-              <div class="d-grid">
-                <button cButton color="success">Create Account</button>
-              </div>
-            </form>
-          </c-card-body>
-        </c-card>
-      </c-col>
-    </c-row>
-  </c-container>
+                                <input formControlName="repeatPassword" autoComplete="new-password" cFormControl placeholder="Tekrar Şifre" type="password" />
+                            </c-input-group>
+
+                            <div class="d-grid">
+                                <button cButton color="success" type="submit" [disabled]="loading">Kayıt Ol</button>
+                            </div>
+
+                            <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+                        </form>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </c-container>
 </div>

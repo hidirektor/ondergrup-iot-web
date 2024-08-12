@@ -1,0 +1,44 @@
+<c-card class="my-4">
+    <c-card-body>
+        <form #versionForm="ngForm" (ngSubmit)="onSubmit(versionForm)">
+            <c-row class="mb-3">
+                <c-col xs="12">
+                    <div class="mb-3">
+                        <label for="versionTitle" class="form-label">Versiyon Başlığı</label>
+                        <input type="text" id="versionTitle" class="form-control" name="versionTitle" [(ngModel)]="versionTitle" required>
+                    </div>
+                </c-col>
+            </c-row>
+            <c-row class="mb-3">
+                <c-col xs="12">
+                    <div class="mb-3">
+                        <label for="versionDesc" class="form-label">Versiyon Açıklaması</label>
+                        <textarea id="versionDesc" class="form-control" name="versionDesc" [(ngModel)]="versionDesc" required></textarea>
+                    </div>
+                </c-col>
+            </c-row>
+            <c-row class="mb-3">
+                <c-col xs="12">
+                    <div class="mb-3">
+                        <label for="versionCode" class="form-label">Versiyon Kodu</label>
+                        <input type="text" id="versionCode" class="form-control" name="versionCode" [(ngModel)]="versionCode" required>
+                    </div>
+                </c-col>
+            </c-row>
+            <c-row class="mb-3">
+                <c-col xs="12">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Dosya Yükle (.hex veya .bin)</label>
+                        <input type="file" id="file" class="form-control" (change)="onFileSelected($event)" required>
+                    </div>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col xs="12" class="text-center">
+                    <button type="submit" class="btn btn-primary" [disabled]="!versionForm.form.valid">Versiyon Oluştur</button>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+    <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+</c-card>

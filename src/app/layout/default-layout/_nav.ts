@@ -53,7 +53,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Makineleri Görüntüle',
-    url: '/dashboard',
+    url: '/machines',
     linkProps: { fragment: 'headings' },
     iconComponent: { name: 'cil-calculator' }
   },
@@ -64,11 +64,11 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Sürüm Güncelle',
-        url: '/theme/colors'
+        url: '/create-version'
       },
       {
-        name: 'Eski Sürümler',
-        url: '/theme/typography'
+        name: 'Tüm Sürümler',
+        url: '/all-versions'
       },
     ]
   },

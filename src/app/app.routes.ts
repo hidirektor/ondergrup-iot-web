@@ -35,6 +35,18 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/editprofile/routes').then((m) => m.routes)
       },
       {
+        path: 'create-version',
+        loadChildren: () => import('./views/customscreens/createversion/routes').then((m) => m.routes)
+      },
+      {
+        path: 'all-versions',
+        loadChildren: () => import('./views/customscreens/allversions/routes').then((m) => m.routes)
+      },
+      {
+        path: 'machines',
+        loadChildren: () => import('./views/customscreens/machines/routes').then((m) => m.routes)
+      },
+      {
         path: 'maintenances',
         loadChildren: () => import('./views/customscreens/maintenances/routes').then((m) => m.routes)
       },

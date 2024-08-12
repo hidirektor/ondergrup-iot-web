@@ -8,6 +8,8 @@ import {map} from "rxjs/operators";
 import {GetAllActionsResponse} from "../models/actionlog-response.model";
 import {HydraulicDetailsResponse} from "../models/hydraulic-response.model";
 import {getMaintenanceStatus, MaintenanceResponse} from "../models/maintenance-response.model";
+import {GetAllMachinesResponse} from "../models/machines-response.model";
+import {GetAllVersionsResponse} from "../models/versions-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -141,11 +143,6 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/authorized/getAllUsers`, { headers });
   }
 
-  getAllMachines(token: string): Observable<any> {
-    const headers = this.getAuthHeaders(token);
-    return this.http.get(`${this.apiUrl}/authorized/getAllMachines`, { headers });
-  }
-
   deleteUser(userID: string, userName: string, token: string): Observable<any> {
     const headers = this.getAuthHeaders(token);
     const body = { userID, userName };
@@ -267,6 +264,54 @@ export class ApiService {
               });
               return response;
             }),
+            catchError(this.handleError)
+        );
+  }
+
+  getAllMachines(token: string): Observable<GetAllMachinesResponse> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<GetAllMachinesResponse>(`${this.apiUrl}/authorized/getAllMachines`, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  getAllVersions(token: string): Observable<GetAllVersionsResponse> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<GetAllVersionsResponse>(`${this.apiUrl}/authorized/getAllVersions`, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  downloadSelectedVersion(versionCode: string): Observable<Blob> {
+    const body = { versionCode };
+    return this.http.post(`${this.apiUrl}/updateChecker/downloadNewVersion`, body, { responseType: 'blob' })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  createVersion(versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
+    const userID = this.cookieService.get('userID');
+
+    // Dosya uzantısını kontrol etme
+    const allowedExtensions = ['hex', 'bin'];
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
+    if (!allowedExtensions.includes(fileExtension || '')) {
+      return throwError(() => new Error('Sadece .hex ve .bin dosyalarına izin verilmektedir.'));
+    }
+
+    const formData = new FormData();
+    formData.append('userID', userID);
+    formData.append('versionCode', versionCode);
+    formData.append('versionTitle', versionTitle);
+    formData.append('versionDesc', versionDesc);
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/updateCheckter/createVersion`, formData)
+        .pipe(
             catchError(this.handleError)
         );
   }

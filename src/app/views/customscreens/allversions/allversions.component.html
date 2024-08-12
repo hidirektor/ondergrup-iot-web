@@ -1,0 +1,48 @@
+<c-card class="my-4">
+    <c-card-footer>
+        <c-row class="mb-4 mt-4">
+            <c-col class="text-center">
+                <button class="btn btn-primary me-2 ms-2" (click)="navigateToDashboard()">Yeni Versiyon Oluştur</button>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col xs>
+                <!-- Versions Table -->
+                <c-card class="mb-4">
+                    <c-card-body>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border"
+                        >
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary">Versiyon Başlığı</th>
+                                <th class="bg-body-tertiary">Versiyon Açıklaması</th>
+                                <th class="bg-body-tertiary">Versiyon Kodu</th>
+                                <th class="bg-body-tertiary">Yayınlanma Tarihi</th>
+                                <th class="bg-body-tertiary">Aksiyonlar</th> <!-- Yeni kolon -->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let version of versions">
+                                <td>{{ version.versionTitle }}</td>
+                                <td>{{ version.versionDesc }}</td>
+                                <td>{{ version.versionCode }}</td>
+                                <td>{{ version.releaseDate | date:'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <button class="btn btn-info" (click)="downloadVersion(version.versionCode)">Sürümü İndir</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

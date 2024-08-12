@@ -22,11 +22,11 @@ import {
   TextColorDirective,
   ThemeDirective
 } from '@coreui/angular';
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import {NgStyle, NgTemplateOutlet} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
-import { IconDirective } from '@coreui/icons-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { delay, filter, map, tap } from 'rxjs/operators';
+import {IconDirective} from '@coreui/icons-angular';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {delay, filter, map, tap} from 'rxjs/operators';
 import {DomSanitizer} from "@angular/platform-browser";
 import {ApiService} from "../../../services/api.service";
 import {firstValueFrom} from "rxjs";
@@ -53,6 +53,8 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   readonly #colorModeService = inject(ColorModeService);
   readonly colorMode = this.#colorModeService.colorMode;
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
+
+  private abortController: AbortController = new AbortController();
 
   readonly colorModes = [
     { name: 'light', text: 'Light', icon: 'cilSun' },
@@ -114,6 +116,16 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
         console.error('Error loading user profile photo:', error);
       }
     }
+  }
+
+  showProfile(): void {
+    this.abortController.abort();
+    this.router.navigate(['/profile']);
+  }
+
+  editProfile(): void {
+    this.abortController.abort();
+    this.router.navigate(['/edit-profile']);
   }
 
   logout(): void {

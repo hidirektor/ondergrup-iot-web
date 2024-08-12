@@ -1,0 +1,40 @@
+<c-card class="my-4">
+    <c-card-header>
+        <h3>Profili Güncelle</h3>
+    </c-card-header>
+    <c-card-body>
+        <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()">
+            <c-row>
+                <c-col xs="12" md="4" class="text-center d-flex flex-column align-items-center justify-content-center">
+                    <img [src]="profilePhotoUrl" alt="{{ currentUser?.nameSurname }}" class="c-avatar avatar-xl avatar-success" />
+                    <h4>{{ currentUser?.nameSurname }}</h4>
+                    <p class="text-muted">{{ currentUser?.userType }}</p>
+                </c-col>
+                <c-col xs="12" md="8">
+                    <div class="form-group">
+                        <label for="nameSurname">Ad Soyad</label>
+                        <input type="text" id="nameSurname" formControlName="nameSurname" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="eMail">E-Posta</label>
+                        <input type="email" id="eMail" formControlName="eMail" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Şirket</label>
+                        <input type="text" id="companyName" formControlName="companyName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Şifre (İsteğe Bağlı)</label>
+                        <input type="password" id="password" formControlName="password" class="form-control" />
+                    </div>
+                </c-col>
+            </c-row>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3">Profili Güncelle</button>
+            </div>
+        </form>
+    </c-card-body>
+    <c-card-footer>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

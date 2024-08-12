@@ -50,17 +50,6 @@ interface IUser {
   };
 }
 
-interface IMachine {
-  id: number;
-  machineID: string;
-  ownerID: string | null;
-  machineType: string;
-  createdAt: number;
-  lastUpdate: number | null;
-  ownerName: string;
-  machineData: any[];
-}
-
 @Component({
   templateUrl: 'usersdashboard.component.html',
   styleUrls: ['usersdashboard.component.scss'],

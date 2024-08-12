@@ -23,6 +23,14 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/usersdashboard/routes').then((m) => m.routes)
       },
       {
+        path: 'profile',
+        loadChildren: () => import('./views/customscreens/profile/routes').then((m) => m.routes)
+      },
+      {
+        path: 'edit-profile',
+        loadChildren: () => import('./views/customscreens/editprofile/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

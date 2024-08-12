@@ -1,0 +1,54 @@
+<c-card class="my-4">
+    <c-card-header>
+        <h3>Kullanıcı Profili</h3>
+    </c-card-header>
+    <c-card-body>
+        <c-row>
+            <c-col xs="12" md="4" class="text-center d-flex flex-column align-items-center justify-content-center">
+                <img [src]="profilePhotoUrl" alt="{{ currentUser?.nameSurname }}" class="c-avatar avatar-xl avatar-success" />
+                <h4>{{ currentUser?.nameSurname }}</h4>
+                <p class="text-muted">{{ currentUser?.userType }}</p>
+            </c-col>
+            <c-col xs="12" md="8">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>Kullanıcı Adı:</td>
+                        <td>{{ currentUser?.userName }}</td>
+                    </tr>
+                    <tr>
+                        <td>E-Posta:</td>
+                        <td>{{ currentUser?.eMail }}</td>
+                    </tr>
+                    <tr>
+                        <td>Şirket:</td>
+                        <td>{{ currentUser?.companyName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Telefon:</td>
+                        <td>{{ currentUser?.phoneNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>Oluşturulma Tarihi:</td>
+                        <td>{{ currentUser?.createdAt | date }}</td>
+                    </tr>
+                    <tr *ngIf="currentUser?.preferences">
+                        <td>Dil Tercihi:</td>
+                        <td>{{ currentUser?.preferences?.language ? 'Türkçe' : 'İngilizce' }}</td>
+                    </tr>
+                    <tr *ngIf="currentUser?.preferences">
+                        <td>Gece Modu:</td>
+                        <td>{{ currentUser?.preferences?.nightMode ? 'Açık' : 'Kapalı' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <button (click)="editProfile()" class="btn btn-primary mt-3">Profili Güncelle</button>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-body>
+    <c-card-footer>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

@@ -102,5 +102,23 @@ export const navItems: INavData[] = [
     url: 'https://hidirektor.com.tr',
     iconComponent: { name: 'cil-description' },
     attributes: { target: '_blank' }
+  },
+  {
+    name: 'Portainer Panel',
+    url: 'https://ondergrup.hidirektor.com.tr:9443',
+    iconComponent: { name: 'cilSettings' },
+    attributes: { target: '_blank' }
+  },
+  {
+    name: 'PhPMyAdmin',
+    url: 'http://ondergrup.hidirektor.com.tr:8183',
+    iconComponent: { name: 'cilBasket' },
+    attributes: { target: '_blank' }
+  },
+  {
+    name: 'MinIO Panel',
+    url: 'http://ondergrup.hidirektor.com.tr:9099',
+    iconComponent: { name: 'cilFile' },
+    attributes: { target: '_blank' }
   }
 ];

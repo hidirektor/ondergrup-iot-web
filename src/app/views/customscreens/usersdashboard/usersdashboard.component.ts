@@ -22,13 +22,13 @@ import {
 import {ChartjsComponent} from '@coreui/angular-chartjs';
 import {IconDirective} from '@coreui/icons-angular';
 
-import {WidgetsBrandComponent} from '../widgets/widgets-brand/widgets-brand.component';
-import {WidgetsDropdownComponent} from '../widgets/widgets-dropdown/widgets-dropdown.component';
-import {ApiService} from "../../services/api.service";
+import {WidgetsBrandComponent} from '../../widgets/widgets-brand/widgets-brand.component';
+import {WidgetsDropdownComponent} from '../../widgets/widgets-dropdown/widgets-dropdown.component';
+import {ApiService} from "../../../services/api.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {firstValueFrom} from "rxjs";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {HttpCoreInterceptor} from "../../http-core.interceptor";
+import {HttpCoreInterceptor} from "../../../http-core.interceptor";
 import {Router} from "@angular/router";
 
 interface IUser {
@@ -102,6 +102,7 @@ export class UsersdashboardComponent implements OnInit {
 
   async loadUsers(): Promise<void> {
     const token = this.apiService.getToken();
+    const currentUserName = this.apiService.getCookie('userName');
 
     try {
       const response = await firstValueFrom(this.apiService.getAllUsers(token));
@@ -125,7 +126,7 @@ export class UsersdashboardComponent implements OnInit {
         }
       }
 
-      this.users = users;
+      this.users = users.sort((a: IUser, b: IUser) => (a.userName === currentUserName ? -1 : b.userName === currentUserName ? 1 : 0));
       this.totalUsers = this.users.length;
       this.engineerCount = this.users.filter(user => user.userType === 'ENGINEER').length;
       this.technicianCount = this.users.filter(user => user.userType === 'TECHNICIAN').length;

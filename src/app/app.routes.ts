@@ -20,7 +20,7 @@ export const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren: () => import('./views/usersdashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/customscreens/usersdashboard/routes').then((m) => m.routes)
       },
       {
         path: 'theme',

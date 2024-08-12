@@ -10,5 +10,5 @@ services:
     restart: always
 
 networks:
-  my-bridge-network:
+  bridge-network:
     driver: bridge

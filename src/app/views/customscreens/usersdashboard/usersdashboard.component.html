@@ -55,7 +55,8 @@
                                     <button *ngIf="!user.isActive" (click)="activateUser(user.userName)" class="btn btn-success mb-3 me-2 ms-2">Aktif Et</button>
                                     <button (click)="editUser(user.userName)" class="btn btn-primary mb-3 me-2 ms-2">Düzenle</button>
                                     <button (click)="deleteUser(user.userName)" class="btn btn-danger mb-3 me-2 ms-2">Sil</button>
-                                    <button *ngIf="user.userType === 'ENGINEER' || user.userType === 'SYSOP'" (click)="viewUserMachines(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Makineleri Gör</button>
+                                    <button *ngIf="user.userType === 'ENGINEER' || user.userType === 'SYSOP'" (click)="viewUserMachines(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Oluşturduğu Makineleri Gör</button>
+                                    <button *ngIf="user.userType === 'NORMAL'" (click)="viewUserMachines(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Sahip Olduğu Makineleri Gör</button>
                                     <button *ngIf="user.userType === 'TECHNICIAN' || user.userType === 'ENGINEER'" (click)="viewUserMaintenanceRecords(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Bakım Kayıtlarını Gör</button>
                                 </td>
                             </tr>

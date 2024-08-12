@@ -1,3 +1,10 @@
+<div *ngIf="loading" class="loading-overlay">
+    <div class="text-center">
+        <i class="spinner-grow spinner-grow-sm"></i>
+        <span class="m-1">Profil fotoğrafı yükleniyor...</span>
+    </div>
+</div>
+
 <c-card class="my-4">
     <c-card-header>
         <h3>Profili Güncelle</h3>
@@ -6,7 +13,8 @@
         <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()">
             <c-row>
                 <c-col xs="12" md="4" class="text-center d-flex flex-column align-items-center justify-content-center">
-                    <img [src]="profilePhotoUrl" alt="{{ currentUser?.nameSurname }}" class="c-avatar avatar-xl avatar-success" />
+                    <img [src]="profilePhotoUrl" alt="{{ currentUser?.nameSurname }}" class="c-avatar avatar-xl avatar-success" (click)="triggerFileInput()" />
+                    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept="image/*" />
                     <h4>{{ currentUser?.nameSurname }}</h4>
                     <p class="text-muted">{{ currentUser?.userType }}</p>
                 </c-col>

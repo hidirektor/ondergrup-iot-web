@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
@@ -68,6 +68,9 @@ export class EditprofileComponent implements OnInit {
   public profilePhotoUrl: string = '../../../../assets/onderlift_icon.png';
   public editProfileForm: FormGroup;
 
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  public loading: boolean = false;
+
   constructor(
       private apiService: ApiService,
       private sanitizer: DomSanitizer,
@@ -95,7 +98,6 @@ export class EditprofileComponent implements OnInit {
       const response = await firstValueFrom(this.apiService.getProfile(token, userID));
       this.currentUser = response.payload.user as unknown as IUser;
 
-      // Profil fotoğrafı yükleme işlemini mevcut verilerin yüklenmesinden sonra yapın
       if (this.currentUser?.userName) {
         try {
           const photo = await firstValueFrom(this.apiService.getProfilePhoto(this.currentUser.userName));
@@ -119,6 +121,37 @@ export class EditprofileComponent implements OnInit {
       this.cdr.detectChanges();
     } catch (error) {
       console.error('Error loading current user:', error);
+    }
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  async onFileSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      const userName = this.currentUser?.userName;
+      if (!userName) {
+        this.showAlert('Kullanıcı adı bulunamadı, lütfen tekrar deneyin.', 'danger');
+        return;
+      }
+
+      this.loading = true;
+
+      try {
+        await firstValueFrom(this.apiService.uploadProfilePhoto(userName, file));
+        const objectURL = URL.createObjectURL(file);
+        this.profilePhotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
+        this.showAlert('Profil fotoğrafı başarıyla güncellendi.', 'success');
+      } catch (error) {
+        console.error('Error uploading profile photo:', error);
+        this.showAlert('Profil fotoğrafı yüklenirken bir hata oluştu.', 'danger');
+      } finally {
+        this.loading = false;
+      }
     }
   }
 

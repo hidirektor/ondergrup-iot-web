@@ -43,20 +43,9 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' },
   },
   {
-    name: 'Yetkililer',
-    url: '/dashboard',
-    iconComponent: {name: 'cil-check'},
-    children: [
-      {
-        name: 'Mühendisleri Görüntüle',
-        url: '/theme/colors'
-      },
-      {
-        name: 'Teknikerleri Görüntüle',
-        url: '/theme/typography',
-        linkProps: {fragment: 'headings'}
-      },
-    ]
+    name: 'Kullanıcı Ekle',
+    url: '/add-user',
+    iconComponent: {name: 'cil-check'}
   },
   {
     title: true,

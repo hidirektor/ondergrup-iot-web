@@ -1,5 +1,12 @@
 <c-card class="my-4">
     <c-card-footer>
+        <c-row class="mb-4 mt-4">
+            <c-col class="text-center">
+                <button class="btn btn-primary me-2 ms-2" (click)="showEngineers = true; showTechnicians = null; loadUsers()">Sadece Mühendisler</button>
+                <button class="btn btn-primary me-2 ms-2" (click)="showEngineers = null; showTechnicians = true; loadUsers()">Sadece Teknisyenler</button>
+                <button class="btn btn-primary me-2 ms-2" (click)="showEngineers = null; showTechnicians = null; loadUsers()">Tüm Kullanıcılar</button>
+            </c-col>
+        </c-row>
         <c-row>
             <c-col xs>
                 <!-- Users Table -->

@@ -75,10 +75,21 @@ export class UsersdashboardComponent implements OnInit {
   public engineerCount: number = 0;
   public technicianCount: number = 0;
 
+  public showEngineers: boolean | null = null;
+  public showTechnicians: boolean | null = null;
+
   constructor(private apiService: ApiService, private sanitizer: DomSanitizer, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const engineersParam = urlParams.get('engineers');
+    const techniciansParam = urlParams.get('technicians');
+
+    this.showEngineers = engineersParam ? engineersParam === 'true' : null;
+    this.showTechnicians = techniciansParam ? techniciansParam === 'true' : null;
+
     this.loadUsers();
   }
 
@@ -95,7 +106,14 @@ export class UsersdashboardComponent implements OnInit {
 
     try {
       const response = await firstValueFrom(this.apiService.getAllUsers(token));
-      const users = response.payload.users;
+      let users = response.payload.users;
+
+      if (this.showEngineers !== null) {
+        users = users.filter((user: { userType: string; }) => user.userType === 'ENGINEER');
+      }
+      if (this.showTechnicians !== null) {
+        users = users.filter((user: { userType: string; }) => user.userType === 'TECHNICIAN');
+      }
 
       for (const user of users) {
         try {

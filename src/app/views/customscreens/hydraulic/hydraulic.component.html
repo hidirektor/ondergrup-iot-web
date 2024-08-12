@@ -1,0 +1,53 @@
+<c-card class="my-4">
+    <c-card-footer>
+        <c-row class="mb-4 mt-4">
+            <c-col class="text-center">
+                <button class="btn btn-primary me-2 ms-2" (click)="showKlasik = true; showModern = null; loadHydraulics()">Klasik Üniteler</button>
+                <button class="btn btn-primary me-2 ms-2" (click)="showKlasik = null; showModern = true; loadHydraulics()">PowerPack Üniteler</button>
+                <button class="btn btn-primary me-2 ms-2" (click)="showKlasik = null; showModern = null; loadHydraulics()">Tüm Üniteler</button>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col xs>
+                <!-- Hydraulics Table -->
+                <c-card class="mb-4">
+                    <c-card-body>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border"
+                        >
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary text-center">Hidrolik Türü</th>
+                                <th class="bg-body-tertiary">Sipariş ID</th>
+                                <th class="bg-body-tertiary">Şema ID</th>
+                                <th class="bg-body-tertiary">Parça Listesi ID</th>
+                                <th class="bg-body-tertiary">Oluşturulma Tarihi</th>
+                                <th class="bg-body-tertiary text-center">Aksiyonlar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let hydraulic of hydraulics">
+                                <td>{{ hydraulic.hydraulicType }}</td>
+                                <td>{{ hydraulic.orderID }}</td>
+                                <td>{{ hydraulic.schematicID }}</td>
+                                <td>{{ hydraulic.partListID }}</td>
+                                <td>{{ hydraulic.createdDate | date:'dd/MM/yyyy' }}</td>
+                                <td class="text-center">
+                                    <button (click)="viewPartList(hydraulic.orderID)" class="btn btn-info mb-3 me-2 ms-2">Parça Listesini Görüntüle</button>
+                                    <button (click)="viewSchematic(hydraulic.orderID)" class="btn btn-info mb-3 me-2 ms-2">Şemayı Görüntüle</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

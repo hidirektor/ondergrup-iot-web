@@ -6,6 +6,7 @@ import {ProfileResponse} from "../models/profile-response.model";
 import {LoginResponse} from "../models/login-response.model";
 import {map} from "rxjs/operators";
 import {GetAllActionsResponse} from "../models/actionlog-response.model";
+import {HydraulicDetailsResponse} from "../models/hydraulic-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -201,6 +202,24 @@ export class ApiService {
         .pipe(
             catchError(this.handleError)
         );
+  }
+
+  getAllHydraulicUnits(unitType: string = ''): Observable<HydraulicDetailsResponse> {
+    const body = { UnitType: unitType };
+    return this.http.post<HydraulicDetailsResponse>(`${this.apiUrl}/hydraulic/getHydraulicDetails`, body)
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  getPartList(orderID: string): void {
+    const url = `${this.apiUrl}/hydraulic/getPartList/${orderID}`;
+    window.open(url, '_blank');
+  }
+
+  getSchematic(orderID: string): void {
+    const url = `${this.apiUrl}/hydraulic/getSchematic/${orderID}`;
+    window.open(url, '_blank');
   }
 
   private handleError(error: any): Observable<never> {

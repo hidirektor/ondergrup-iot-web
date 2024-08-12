@@ -59,7 +59,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Makine Yazılımı',
-    url: '/dashboard',
+    url: '/all-versions',
     iconComponent: {name: 'cil-cloud-download'},
     children: [
       {

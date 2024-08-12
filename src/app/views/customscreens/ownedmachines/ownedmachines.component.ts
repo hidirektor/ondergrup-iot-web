@@ -28,13 +28,13 @@ interface IMachine {
 }
 
 @Component({
-  templateUrl: 'machines.component.html',
-  styleUrls: ['machines.component.scss'],
+  templateUrl: 'ownedmachines.component.html',
+  styleUrls: ['ownedmachines.component.scss'],
   standalone: true,
   imports: [HttpClientModule, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, ReactiveFormsModule, CardFooterComponent, TableDirective, NgForOf, DatePipe, NgIf, AlertComponent],
   providers: [ApiService]
 })
-export class MachinesComponent implements OnInit {
+export class OwnedmachinesComponent implements OnInit {
 
   public alertMessage: string | null = null;
   public alertColor: string = 'warning';
@@ -57,7 +57,13 @@ export class MachinesComponent implements OnInit {
       const response = await firstValueFrom(this.apiService.getAllMachines(token));
 
       this.allMachines = response.payload.machines;
-      this.filterMachines('all');
+
+      this.route.paramMap.subscribe(params => {
+        const ownerNameParam = params.get('ownerName');
+        if (ownerNameParam) {
+          this.filterMachinesByOwner(ownerNameParam);
+        }
+      });
 
       this.cdr.detectChanges();
     } catch (error) {
@@ -66,17 +72,14 @@ export class MachinesComponent implements OnInit {
     }
   }
 
-  filterMachines(filter: 'all' | 'owned' | 'unowned'): void {
-    if (filter === 'owned') {
-      this.machines = this.allMachines.filter(m => m.ownerID !== null);
-    } else if (filter === 'unowned') {
-      this.machines = this.allMachines.filter(m => m.ownerID === null);
-    } else {
-      this.machines = [...this.allMachines];
-    }
-
+  filterMachinesByOwner(ownerName: string): void {
+    this.machines = this.allMachines.filter(m => m.ownerName === ownerName);
     this.totalMachines = this.machines.length;
     this.cdr.detectChanges();
+  }
+
+  navigateToMachines(): void {
+    this.router.navigate(['/machines']);
   }
 
   showAlert(message: string, color: string): void {

@@ -1,0 +1,46 @@
+<c-card class="my-4">
+    <c-card-footer>
+        <c-row class="mb-4 mt-4">
+            <c-col class="text-center">
+                <button class="btn btn-primary me-2 ms-2" (click)="navigateToMachines()">Tüm Makineler</button>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col xs>
+                <!-- Machines Table -->
+                <c-card class="mb-4">
+                    <c-card-body>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border"
+                        >
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary">Makine ID</th>
+                                <th class="bg-body-tertiary">Makine Türü</th>
+                                <th class="bg-body-tertiary">Sahip İsmi</th>
+                                <th class="bg-body-tertiary">Oluşturulma Tarihi</th>
+                                <th class="bg-body-tertiary">Son Güncelleme</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let machine of machines">
+                                <td>{{ machine.machineID }}</td>
+                                <td>{{ machine.machineType }}</td>
+                                <td>{{ machine.ownerName }}</td>
+                                <td>{{ machine.createdAt | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ machine.lastUpdate ? (machine.lastUpdate | date:'dd/MM/yyyy') : 'Güncelleme Yok' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

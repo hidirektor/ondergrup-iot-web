@@ -15,7 +15,7 @@ import {ApiService} from "../../../services/api.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {firstValueFrom} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 interface IMachine {
   id: number;
@@ -45,7 +45,7 @@ export class MachinesComponent implements OnInit {
 
   private allMachines: IMachine[] = [];
 
-  constructor(private apiService: ApiService, private sanitizer: DomSanitizer, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadMachines();
@@ -57,13 +57,24 @@ export class MachinesComponent implements OnInit {
       const response = await firstValueFrom(this.apiService.getAllMachines(token));
 
       this.allMachines = response.payload.machines;
-      this.filterMachines('all'); // Default to show all machines
+      const ownerNameParam = this.route.snapshot.paramMap.get('ownerName');
+      if (ownerNameParam) {
+        this.filterMachinesByOwner(ownerNameParam);
+      } else {
+        this.filterMachines('all');
+      }
 
       this.cdr.detectChanges();
     } catch (error) {
       console.error('Error loading machines:', error);
       this.showAlert('Makineler yüklenirken hata oluştu.', 'danger');
     }
+  }
+
+  filterMachinesByOwner(ownerName: string): void {
+    this.machines = this.allMachines.filter(m => m.ownerName === ownerName);
+    this.totalMachines = this.machines.length;
+    this.cdr.detectChanges();
   }
 
   filterMachines(filter: 'all' | 'owned' | 'unowned'): void {

@@ -295,7 +295,6 @@ export class ApiService {
   createVersion(versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
     const userID = this.cookieService.get('userID');
 
-    // Dosya uzantısını kontrol etme
     const allowedExtensions = ['hex', 'bin'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
 

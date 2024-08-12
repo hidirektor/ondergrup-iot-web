@@ -43,7 +43,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/allversions/routes').then((m) => m.routes)
       },
       {
-        path: 'machines',
+        path: 'machines/:ownerName',
         loadChildren: () => import('./views/customscreens/machines/routes').then((m) => m.routes)
       },
       {

@@ -185,6 +185,11 @@ export class ApiService {
     );
   }
 
+  addUser(token: string, body: any): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post(`${this.apiUrl}/authorized/addUser`, body, { headers });
+  }
+
   private handleError(error: any): Observable<never> {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {

@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/usersdashboard/routes').then((m) => m.routes)
       },
       {
+        path: 'add-user',
+        loadChildren: () => import('./views/customscreens/adduser/routes').then((m) => m.routes)
+      },
+      {
         path: 'profile',
         loadChildren: () => import('./views/customscreens/profile/routes').then((m) => m.routes)
       },

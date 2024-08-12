@@ -171,6 +171,12 @@ export class EditprofileComponent implements OnInit {
 
     try {
       const userData = this.editProfileForm.value;
+
+      // Eğer password alanı boşsa, userData nesnesinden password alanını kaldır
+      if (!userData.password) {
+        delete userData.password;
+      }
+
       await firstValueFrom(this.apiService.updateProfile(token, userID, userData));
       this.showAlert('Profil başarıyla güncellendi.', 'success');
       this.router.navigate(['/profile']);

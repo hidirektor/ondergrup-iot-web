@@ -138,7 +138,11 @@ export class UsersdashboardComponent implements OnInit {
 
     try {
       await firstValueFrom(this.apiService.deleteUser(userID, targetUserName, token));
-      this.loadUsers();
+
+      await this.loadUsers();
+
+      this.cdr.detectChanges();
+      this.showAlert('Kullanıcı başarıyla silindi.', 'success');
     } catch (error) {
       console.error('Error deleting user:', error);
     }
@@ -156,7 +160,9 @@ export class UsersdashboardComponent implements OnInit {
 
     try {
       await firstValueFrom(this.apiService.deactivateUser(userID, targetUserName, token));
-      this.loadUsers();
+      await this.loadUsers();
+
+      this.showAlert('Kullanıcı başarıyla pasifleştirildi.', 'success');
     } catch (error) {
       console.error('Error deactivating user:', error);
     }
@@ -174,7 +180,9 @@ export class UsersdashboardComponent implements OnInit {
 
     try {
       await firstValueFrom(this.apiService.activateUser(userID, targetUserName, token));
-      this.loadUsers();
+      await this.loadUsers();
+
+      this.showAlert('Kullanıcı başarıyla aktifleştirildi.', 'success');
     } catch (error) {
       console.error('Error activating user:', error);
     }

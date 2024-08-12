@@ -1,0 +1,340 @@
+<c-card class="my-4">
+    <c-card-footer>
+        <c-row>
+            <c-col xs>
+                <!-- Maintenances Table -->
+                <c-card class="mb-4">
+                    <c-card-body>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border"
+                        >
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary text-center">Makine ID</th>
+                                <th class="bg-body-tertiary">Teknisyen</th>
+                                <th class="bg-body-tertiary">Teknisyen ID</th>
+                                <th class="bg-body-tertiary">Bakım Tarihi</th>
+                                <th class="bg-body-tertiary text-center">Detaylar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let maintenance of maintenances">
+                                <td>{{ maintenance.machineID }}</td>
+                                <td>{{ maintenance.technicianName }}</td>
+                                <td>{{ maintenance.technicianID }}</td>
+                                <td>{{ maintenance.maintenanceDate | date:'dd/MM/yyyy' }}</td>
+                                <td class="text-center">
+                                    <button (click)="toggleDetails(maintenance)" class="btn btn-info mb-3 me-2 ms-2">
+                                        Detayları Göster/Gizle
+                                    </button>
+                                    <div *ngIf="maintenance.showDetails">
+                                        <div>
+                                            <strong>Fonksiyonlar & Kontrol:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Kumanda butonları çalışıyor</td>
+                                                    <td>{{ maintenance.kontrol11 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Acil stop butonu kontrol</td>
+                                                    <td>{{ maintenance.kontrol12 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kaldırma, indirme butonları</td>
+                                                    <td>{{ maintenance.kontrol13 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Acil indirme sistemi</td>
+                                                    <td>{{ maintenance.kontrol14 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Platform Montajı:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Platform güvenli</td>
+                                                    <td>{{ maintenance.kontrol21 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Platform korkulukları güvenli</td>
+                                                    <td>{{ maintenance.kontrol22 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Platform tekmelikleri güvenli</td>
+                                                    <td>{{ maintenance.kontrol23 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Platform zemin sacı güvenli</td>
+                                                    <td>{{ maintenance.kontrol24 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Makaslar:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Makaslar hasarsız, sağlam ve güvenli</td>
+                                                    <td>{{ maintenance.kontrol31 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Emniyet çubuğu yerinde, çalışır durumda</td>
+                                                    <td>{{ maintenance.kontrol32 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tüm somunlar, cıvatalar, permolar, rulmanlar, segmanlar, bağlantı elemanlarının yerinde, hasarsız ve sıkılı olduğunu kontrol edin</td>
+                                                    <td>{{ maintenance.kontrol33 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Silindir permolarının ve diğer bağlantı elemanlarının, hasarsız ve sıkılı olduğunu kontrol edin</td>
+                                                    <td>{{ maintenance.kontrol34 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Makas bağlantı permolarının, yataklamaların ve diğer bağlantı elemanlarının, hasarsız ve sıkılı olduğunu kontrol edin</td>
+                                                    <td>{{ maintenance.kontrol35 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Makaslar üzerindeki tüm malzemelerin hasarsız, sağlam, güvenli ve çalışır durumda olduğunu kontrol edin</td>
+                                                    <td>{{ maintenance.kontrol36 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Genel:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Platform üzerinde izinsiz tadilat yapılmamış</td>
+                                                    <td>{{ maintenance.kontrol41 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Boya ve genel görünüş</td>
+                                                    <td>{{ maintenance.kontrol42 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Konstrüksiyon hasarsız, kaynaklar sağlam</td>
+                                                    <td>{{ maintenance.kontrol43 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gresörlükler periyodik olarak yağlandı</td>
+                                                    <td>{{ maintenance.kontrol44 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Platformun tüm fonksiyonları emniyetli çalışır durumda</td>
+                                                    <td>{{ maintenance.kontrol45 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Yapılan kontroller kayıt altına alındı</td>
+                                                    <td>{{ maintenance.kontrol46 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Hidrolik Sistem:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Silindirler hasarsız, sızıntısız ve çalışır durumda</td>
+                                                    <td>{{ maintenance.kontrol51 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Hidrolik kabin içerisinde, pompa ve sistemde yağ sızıntısı, kaçak yok</td>
+                                                    <td>{{ maintenance.kontrol52 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Emiş ve dönüş filtreleri yeterli</td>
+                                                    <td>{{ maintenance.kontrol53 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanktaki hidrolik yağ seviyesi yeterli</td>
+                                                    <td>{{ maintenance.kontrol54 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tank havalandırma kapağı yerinde ve sıkılı</td>
+                                                    <td>{{ maintenance.kontrol55 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tüm hidrolik bağlantı elemanları, hortumlar hasarsız, güvenli, yağ sızıntısı ve aşınma yok</td>
+                                                    <td>{{ maintenance.kontrol56 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Elektrik Sistemi:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Tüm elektrik bağlantıları güvenli ve hasarsız</td>
+                                                    <td>{{ maintenance.kontrol61 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Butonlar, switchler, korna, ışıklar ve diğer ekipmanlar çalışır, hasarsız</td>
+                                                    <td>{{ maintenance.kontrol62 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Boy sensörü kontrolü</td>
+                                                    <td>{{ maintenance.kontrol63 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Kılavuzlar & Etiketler:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Kullanım ve bakım kılavuzu yerinde:</td>
+                                                    <td>{{ maintenance.kontrol71 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kapasite, kullanım, emniyet ve güvenlik ikaz işaret ve etiketleri yerinde ve görülebilir durumda:</td>
+                                                    <td>{{ maintenance.kontrol72 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Şase:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Hidrolik ünite kabinleri hasarsız ve şaseye bağlı:</td>
+                                                    <td>{{ maintenance.kontrol81 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Elektrik ünite kabinleri hasarsız ve şaseye bağlı:</td>
+                                                    <td>{{ maintenance.kontrol82 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Şase hasarsız ve çalışır durumda:</td>
+                                                    <td>{{ maintenance.kontrol83 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <strong>Açıklama & Not:</strong>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Kriter</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Not 1:</td>
+                                                    <td>{{ maintenance.kontrol91 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 2:</td>
+                                                    <td>{{ maintenance.kontrol92 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 3:</td>
+                                                    <td>{{ maintenance.kontrol93 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 4:</td>
+                                                    <td>{{ maintenance.kontrol94 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 5:</td>
+                                                    <td>{{ maintenance.kontrol95 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 6:</td>
+                                                    <td>{{ maintenance.kontrol96 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 7:</td>
+                                                    <td>{{ maintenance.kontrol97 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 8:</td>
+                                                    <td>{{ maintenance.kontrol98 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 9:</td>
+                                                    <td>{{ maintenance.kontrol99 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Not 10:</td>
+                                                    <td>{{ maintenance.kontrol910 }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

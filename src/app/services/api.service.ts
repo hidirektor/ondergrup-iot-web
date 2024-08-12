@@ -7,6 +7,7 @@ import {LoginResponse} from "../models/login-response.model";
 import {map} from "rxjs/operators";
 import {GetAllActionsResponse} from "../models/actionlog-response.model";
 import {HydraulicDetailsResponse} from "../models/hydraulic-response.model";
+import {getMaintenanceStatus, MaintenanceResponse} from "../models/maintenance-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -220,6 +221,54 @@ export class ApiService {
   getSchematic(orderID: string): void {
     const url = `${this.apiUrl}/hydraulic/getSchematic/${orderID}`;
     window.open(url, '_blank');
+  }
+
+  getMaintenancesAll(token: string): Observable<MaintenanceResponse> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<MaintenanceResponse>(`${this.apiUrl}/authorized/getAllMaintenances`, { headers })
+        .pipe(
+            map(response => {
+              response.payload.maintenancesDetails = response.payload.maintenancesDetails.map(maintenance => {
+                maintenance.kontrol11 = getMaintenanceStatus(maintenance.kontrol11.toString());
+                maintenance.kontrol12 = getMaintenanceStatus(maintenance.kontrol12.toString());
+                maintenance.kontrol13 = getMaintenanceStatus(maintenance.kontrol13.toString());
+                maintenance.kontrol14 = getMaintenanceStatus(maintenance.kontrol14.toString());
+                maintenance.kontrol21 = getMaintenanceStatus(maintenance.kontrol21.toString());
+                maintenance.kontrol22 = getMaintenanceStatus(maintenance.kontrol22.toString());
+                maintenance.kontrol23 = getMaintenanceStatus(maintenance.kontrol23.toString());
+                maintenance.kontrol24 = getMaintenanceStatus(maintenance.kontrol24.toString());
+                maintenance.kontrol31 = getMaintenanceStatus(maintenance.kontrol31.toString());
+                maintenance.kontrol32 = getMaintenanceStatus(maintenance.kontrol32.toString());
+                maintenance.kontrol33 = getMaintenanceStatus(maintenance.kontrol33.toString());
+                maintenance.kontrol34 = getMaintenanceStatus(maintenance.kontrol34.toString());
+                maintenance.kontrol35 = getMaintenanceStatus(maintenance.kontrol35.toString());
+                maintenance.kontrol36 = getMaintenanceStatus(maintenance.kontrol36.toString());
+                maintenance.kontrol41 = getMaintenanceStatus(maintenance.kontrol41.toString());
+                maintenance.kontrol42 = getMaintenanceStatus(maintenance.kontrol42.toString());
+                maintenance.kontrol43 = getMaintenanceStatus(maintenance.kontrol43.toString());
+                maintenance.kontrol44 = getMaintenanceStatus(maintenance.kontrol44.toString());
+                maintenance.kontrol45 = getMaintenanceStatus(maintenance.kontrol45.toString());
+                maintenance.kontrol46 = getMaintenanceStatus(maintenance.kontrol46.toString());
+                maintenance.kontrol51 = getMaintenanceStatus(maintenance.kontrol51.toString());
+                maintenance.kontrol52 = getMaintenanceStatus(maintenance.kontrol52.toString());
+                maintenance.kontrol53 = getMaintenanceStatus(maintenance.kontrol53.toString());
+                maintenance.kontrol54 = getMaintenanceStatus(maintenance.kontrol54.toString());
+                maintenance.kontrol55 = getMaintenanceStatus(maintenance.kontrol55.toString());
+                maintenance.kontrol56 = getMaintenanceStatus(maintenance.kontrol56.toString());
+                maintenance.kontrol61 = getMaintenanceStatus(maintenance.kontrol61.toString());
+                maintenance.kontrol62 = getMaintenanceStatus(maintenance.kontrol62.toString());
+                maintenance.kontrol63 = getMaintenanceStatus(maintenance.kontrol63.toString());
+                maintenance.kontrol71 = getMaintenanceStatus(maintenance.kontrol71.toString());
+                maintenance.kontrol72 = getMaintenanceStatus(maintenance.kontrol72.toString());
+                maintenance.kontrol81 = getMaintenanceStatus(maintenance.kontrol81.toString());
+                maintenance.kontrol82 = getMaintenanceStatus(maintenance.kontrol82.toString());
+                maintenance.kontrol83 = getMaintenanceStatus(maintenance.kontrol83.toString());
+                return maintenance;
+              });
+              return response;
+            }),
+            catchError(this.handleError)
+        );
   }
 
   private handleError(error: any): Observable<never> {

@@ -78,7 +78,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Bakım Kayıtları',
-    url: '/dashboard',
+    url: '/maintenances',
     linkProps: { fragment: 'headings' },
     iconComponent: { name: 'cil-task' }
   },

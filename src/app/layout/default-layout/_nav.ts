@@ -38,7 +38,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Kullanıcıları Görüntüle',
-    url: '/dashboard',
+    url: '/users',
     linkProps: { fragment: 'headings' },
     iconComponent: { name: 'cil-user' },
   },

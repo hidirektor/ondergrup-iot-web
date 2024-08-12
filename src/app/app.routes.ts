@@ -1,5 +1,5 @@
-import { Routes } from '@angular/router';
-import { DefaultLayoutComponent } from './layout';
+import {Routes} from '@angular/router';
+import {DefaultLayoutComponent} from './layout';
 
 export const routes: Routes = [
   {
@@ -11,12 +11,16 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Anasayfa'
     },
     children: [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./views/usersdashboard/routes').then((m) => m.routes)
       },
       {
         path: 'theme',
@@ -74,14 +78,14 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./views/pages/login/login.component').then(m => m.LoginComponent),
     data: {
-      title: 'Login Page'
+      title: 'Giriş Yap'
     }
   },
   {
     path: 'register',
     loadComponent: () => import('./views/pages/register/register.component').then(m => m.RegisterComponent),
     data: {
-      title: 'Register Page'
+      title: 'Kayıt Ol'
     }
   },
   { path: '**', redirectTo: 'dashboard' }

@@ -143,6 +143,33 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/authorized/getAllMachines`, { headers });
   }
 
+  deleteUser(userID: string, userName: string, token: string): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    const body = { userID, userName };
+    return this.http.post(`${this.apiUrl}/authorized/deleteUser`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  deactivateUser(userID: string, userName: string, token: string): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    const body = { userID, userName };
+    return this.http.post(`${this.apiUrl}/authorized/deActivateUser`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  activateUser(userID: string, userName: string, token: string): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    const body = { userID, userName };
+    return this.http.post(`${this.apiUrl}/authorized/activateUser`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
   private handleError(error: any): Observable<never> {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {

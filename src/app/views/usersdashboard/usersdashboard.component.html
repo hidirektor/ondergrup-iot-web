@@ -1,0 +1,63 @@
+<c-card class="my-4">
+    <c-card-footer>
+        <c-row>
+            <c-col xs>
+                <!-- Users Table -->
+                <c-card class="mb-4">
+                    <c-card-body>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border"
+                        >
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary text-center">
+                                    <svg cIcon name="cilPeople"></svg>
+                                </th>
+                                <th class="bg-body-tertiary">Kullanıcı</th>
+                                <th class="bg-body-tertiary">E-Posta</th>
+                                <th class="bg-body-tertiary">Şirketi</th>
+                                <th class="bg-body-tertiary text-center">Uygulama Tercihleri</th>
+                                <th class="bg-body-tertiary text-center">Durumu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="text-center">
+                                    <img [src]="user.avatar" alt="{{ user.nameSurname }}" class="c-avatar avatar-md avatar-success" />
+                                </td>
+                                <td>
+                                    <div>{{ user.nameSurname }}</div>
+                                    <div class="small text-body-secondary text-nowrap">
+                                        <span>{{ user.userName }} | {{ user.userType }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ user.eMail }}</td>
+                                <td>{{ user.companyName }}</td>
+                                <td class="text-center">
+                                    <div>Language: {{ user.preferences.language ? 'Türkçe' : 'İngilizce' }}</div>
+                                    <div>Night Mode: {{ user.preferences.nightMode ? 'Açık' : 'Kapalı' }}</div>
+                                </td>
+                                <td class="text-center">{{ user.isActive ? 'Aktif' : 'Pasif' }}</td>
+                                <td class="text-center">
+                                    <button *ngIf="user.isActive" (click)="deactivateUser(user.userName)" class="btn btn-warning mb-3 me-2 ms-2">Deaktif Et</button>
+                                    <button *ngIf="!user.isActive" (click)="activateUser(user.userName)" class="btn btn-success mb-3 me-2 ms-2">Aktif Et</button>
+                                    <button (click)="editUser(user.userName)" class="btn btn-primary mb-3 me-2 ms-2">Düzenle</button>
+                                    <button (click)="deleteUser(user.userName)" class="btn btn-danger mb-3 me-2 ms-2">Sil</button>
+                                    <button *ngIf="user.userType === 'ENGINEER' || user.userType === 'SYSOP'" (click)="viewUserMachines(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Makineleri Gör</button>
+                                    <button *ngIf="user.userType === 'TECHNICIAN' || user.userType === 'ENGINEER'" (click)="viewUserMaintenanceRecords(user.userName)" class="btn btn-info mb-3 me-2 ms-2">Bakım Kayıtlarını Gör</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">{{ alertMessage }}</c-alert>
+    </c-card-footer>
+</c-card>

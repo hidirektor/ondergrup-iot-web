@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {ApiService} from '../../../services/api.service';
 import {
@@ -70,13 +70,15 @@ export class EditprofileComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   public loading: boolean = false;
+  private cookieUserID: string;
 
   constructor(
       private apiService: ApiService,
       private sanitizer: DomSanitizer,
       private router: Router,
+      private route: ActivatedRoute,
       private cdr: ChangeDetectorRef,
-      private fb: FormBuilder
+      private fb: FormBuilder,
   ) {
     this.editProfileForm = this.fb.group({
       nameSurname: ['', Validators.required],
@@ -84,15 +86,18 @@ export class EditprofileComponent implements OnInit {
       companyName: ['', Validators.required],
       password: ['']  // Optional field for password change
     });
+    this.cookieUserID = this.apiService.getCookie('userID');
   }
 
   ngOnInit(): void {
-    this.loadCurrentUser();
+    const userID = this.route.snapshot.paramMap.get('userID');
+    if (userID) {
+      this.loadCurrentUser(userID);
+    }
   }
 
-  async loadCurrentUser(): Promise<void> {
+  async loadCurrentUser(userID: string): Promise<void> {
     const token = this.apiService.getToken();
-    const userID = this.apiService.getCookie('userID');
 
     try {
       const response = await firstValueFrom(this.apiService.getProfile(token, userID));
@@ -172,17 +177,32 @@ export class EditprofileComponent implements OnInit {
     try {
       const userData = this.editProfileForm.value;
 
-      // Eğer password alanı boşsa, userData nesnesinden password alanını kaldır
       if (!userData.password) {
         delete userData.password;
       }
 
-      await firstValueFrom(this.apiService.updateProfile(token, userID, userData));
+      if (userID === this.cookieUserID) {
+        await firstValueFrom(this.apiService.updateProfile(token, userID, userData));
+      } else {
+        await this.saveOtherProfile(token, userID, userData);
+      }
+
       this.showAlert('Profil başarıyla güncellendi.', 'success');
       this.router.navigate(['/profile']);
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error('Profil güncellenirken hata oluştu:', error);
       this.showAlert('Profil güncellenirken bir hata oluştu.', 'danger');
+    }
+  }
+
+  private async saveOtherProfile(token: string, userID: string, userData: any): Promise<void> {
+    const sourceUserID = this.cookieUserID;
+
+    try {
+      await firstValueFrom(this.apiService.updateUser(token, sourceUserID, userID, userData));
+    } catch (error) {
+      console.error('Başka bir kullanıcı profili güncellenirken hata oluştu:', error);
+      throw error;  // Hatanın yakalanması için yeniden fırlatıyoruz
     }
   }
 

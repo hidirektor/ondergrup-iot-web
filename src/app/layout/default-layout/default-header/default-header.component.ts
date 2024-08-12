@@ -125,7 +125,8 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
 
   editProfile(): void {
     this.abortController.abort();
-    this.router.navigate(['/edit-profile']);
+    const userID = this.apiService.getCookie('userID');
+    this.router.navigate(['/edit-profile', userID]);
   }
 
   logout(): void {

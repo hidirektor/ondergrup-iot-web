@@ -31,7 +31,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/profile/routes').then((m) => m.routes)
       },
       {
-        path: 'edit-profile',
+        path: 'edit-profile/:userID',
         loadChildren: () => import('./views/customscreens/editprofile/routes').then((m) => m.routes)
       },
       {

@@ -207,7 +207,7 @@ export class UsersdashboardComponent implements OnInit {
   }
 
   editUser(userID: string): void {
-    this.router.navigate(['/edit-user', userID]);
+    this.router.navigate(['/edit-profile', userID]);
   }
 
   viewUserMachines(userID: string): void {

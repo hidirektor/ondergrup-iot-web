@@ -190,6 +190,19 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/authorized/addUser`, body, { headers });
   }
 
+  updateUser(token: string, sourceUserID: string, userID: string, userData: any): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    const body = {
+      sourceUserID,
+      userID,
+      userData
+    };
+    return this.http.post(`${this.apiUrl}/authorized/updateUser`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
   private handleError(error: any): Observable<never> {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {

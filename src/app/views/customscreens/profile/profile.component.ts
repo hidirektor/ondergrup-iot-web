@@ -77,7 +77,6 @@ export class ProfileComponent implements OnInit {
         preferences: response.payload.userPreferences
       };
 
-      // Profil fotoğrafı yükleme işlemini mevcut verilerin yüklenmesinden sonra yapın
       if (this.currentUser?.userName) {
         try {
           const photo = await firstValueFrom(this.apiService.getProfilePhoto(this.currentUser.userName));

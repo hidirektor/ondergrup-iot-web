@@ -95,6 +95,16 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
+    name: 'Hidrolik Ünitesi'
+  },
+  {
+    name: 'Hidrolik Üniteleri',
+    url: '/hydraulic',
+    linkProps: { fragment: 'headings' },
+    iconComponent: { name: 'cil-calculator' }
+  },
+  {
+    title: true,
     name: 'Faydalı Linkler',
     class: 'mt-auto'
   },

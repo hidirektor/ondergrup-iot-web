@@ -1,8 +1,10 @@
 <app-widgets-dropdown
         [totalUsers]="totalUsers"
-        [totalMachines]="totalMachines"
         [engineerCount]="engineerCount"
         [technicianCount]="technicianCount"
+        [totalMachines]="totalMachines"
+        [totalKlasikCount]="totalKlasikCount"
+        [totalPowerPackCount]="totalPowerPackCount"
 ></app-widgets-dropdown>
 
 <c-card class="my-4">
@@ -11,7 +13,7 @@
             <c-col xs>
                 <!-- Users Table -->
                 <c-card class="mb-4">
-                    <c-card-body>
+                    <c-card-body style="max-height: 400px; overflow-y: auto;">
                         <table
                                 [hover]="true"
                                 [responsive]="true"
@@ -58,7 +60,7 @@
 
                 <!-- Machines Table -->
                 <c-card class="mb-4">
-                    <c-card-body>
+                    <c-card-body style="max-height: 400px; overflow-y: auto;">
                         <table
                                 [hover]="true"
                                 [responsive]="true"
@@ -83,6 +85,50 @@
                                 <td>{{ machine.machineType }}</td>
                                 <td>{{ machine.createdAt | date:'medium' }}</td>
                                 <td>{{ machine.lastUpdate ? (machine.lastUpdate | date:'medium') : 'N/A' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+
+                <!-- Action Logs Table -->
+                <c-card class="mb-4">
+                    <c-card-body style="max-height: 400px; overflow-y: auto;">
+                        <h5>Action Logs</h5>
+                        <table
+                                [hover]="true"
+                                [responsive]="true"
+                                [striped]="true"
+                                align="middle"
+                                cTable
+                                class="mb-0 border">
+
+                            <thead class="text-nowrap text-truncate">
+                            <tr>
+                                <th class="bg-body-tertiary">ID</th>
+                                <th class="bg-body-tertiary">Kaynak Kullanıcı</th>
+                                <th class="bg-body-tertiary">Etkilenen Kullanıcı</th>
+                                <th class="bg-body-tertiary">Etkilenen Makine ID</th>
+                                <th class="bg-body-tertiary">Etkilenen Bakım ID</th>
+                                <th class="bg-body-tertiary">Etkilenen Hidrolik Ünite ID</th>
+                                <th class="bg-body-tertiary">Operasyon Bölümü</th>
+                                <th class="bg-body-tertiary">Operasyon Türü</th>
+                                <th class="bg-body-tertiary">Operasyon Adı</th>
+                                <th class="bg-body-tertiary">Operasyon Zamanı</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let log of actionLogs">
+                                <td>{{ log.id }}</td>
+                                <td>{{ log.sourceUserName }}</td>
+                                <td>{{ log.affectedUserName || 'N/A' }}</td>
+                                <td>{{ log.affectedMachineID || 'N/A' }}</td>
+                                <td>{{ log.affectedMaintenanceID || 'N/A' }}</td>
+                                <td>{{ log.affectedHydraulicUnitID || 'N/A' }}</td>
+                                <td>{{ log.operationSection }}</td>
+                                <td>{{ log.operationType }}</td>
+                                <td>{{ log.operationName }}</td>
+                                <td>{{ log.operationTime | date:'medium' }}</td>
                             </tr>
                             </tbody>
                         </table>

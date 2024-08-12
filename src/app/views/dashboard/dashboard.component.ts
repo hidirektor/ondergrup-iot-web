@@ -1,17 +1,6 @@
-import {DatePipe, DOCUMENT, NgForOf, NgStyle} from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  OnInit,
-  Renderer2,
-  signal,
-  WritableSignal
-} from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChartOptions } from 'chart.js';
+import {DatePipe, NgForOf, NgStyle} from '@angular/common';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {
   AvatarComponent,
   ButtonDirective,
@@ -29,18 +18,18 @@ import {
   TableDirective,
   TextColorDirective
 } from '@coreui/angular';
-import { ChartjsComponent } from '@coreui/angular-chartjs';
-import { IconDirective } from '@coreui/icons-angular';
+import {ChartjsComponent} from '@coreui/angular-chartjs';
+import {IconDirective} from '@coreui/icons-angular';
 
-import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
-import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
-import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {WidgetsBrandComponent} from '../widgets/widgets-brand/widgets-brand.component';
+import {WidgetsDropdownComponent} from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import {ApiService} from "../../services/api.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {firstValueFrom} from "rxjs";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HttpCoreInterceptor} from "../../http-core.interceptor";
 import {Router} from "@angular/router";
+import {ActionLog} from "../../models/actionlog-response.model";
 
 interface IUser {
   userID: string;
@@ -90,10 +79,13 @@ export class DashboardComponent implements OnInit {
 
   public users: IUser[] = [];
   public machines: IMachine[] = [];
+  public actionLogs: ActionLog[] = [];
   public totalUsers: number = 0;
-  public totalMachines: number = 0;
   public engineerCount: number = 0;
   public technicianCount: number = 0;
+  public totalMachines: number = 0;
+  public totalKlasikCount: number = 0;
+  public totalPowerPackCount: number = 0;
 
   constructor(private apiService: ApiService, private sanitizer: DomSanitizer, private router: Router, private cdr: ChangeDetectorRef) {}
 
@@ -101,6 +93,8 @@ export class DashboardComponent implements OnInit {
     this.checkAuthentication();
     this.loadUsers();
     this.loadMachines();
+    this.loadActionLogs();
+    this.loadHydraulicStats();
   }
 
   async checkAuthentication(): Promise<void> {
@@ -155,6 +149,30 @@ export class DashboardComponent implements OnInit {
       this.totalMachines = this.machines.length;
     } catch (error) {
       console.error('Error loading machines:', error);
+    }
+  }
+
+  async loadActionLogs(): Promise<void> {
+    const token = this.apiService.getToken();
+
+    try {
+      const response = await firstValueFrom(this.apiService.getAllActions(token));
+      this.actionLogs = response.payload.logs;
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error loading action logs:', error);
+    }
+  }
+
+  async loadHydraulicStats(): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.apiService.getHydraulicStats());
+      const stats = response.payload.statistics;
+      this.totalKlasikCount = stats.Klasik;
+      this.totalPowerPackCount = stats.Hidros; // Hidros burada PowerPack olarak kabul edildi
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error loading hydraulic stats:', error);
     }
   }
 }

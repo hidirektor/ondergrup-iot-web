@@ -1,16 +1,11 @@
+import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,} from '@angular/core';
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import {
-  CardBodyComponent, CardComponent,
+  CardBodyComponent,
+  CardComponent,
   CardHeaderComponent,
   ColComponent,
-  DropdownComponent, DropdownItemDirective,
+  DropdownComponent,
+  DropdownItemDirective,
   DropdownToggleDirective,
   RowComponent,
   WidgetStatAComponent
@@ -40,9 +35,11 @@ import {ChartjsComponent} from "@coreui/angular-chartjs";
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   @Input() totalUsers: number = 0;
-  @Input() totalMachines: number = 0;
   @Input() engineerCount: number = 0;
   @Input() technicianCount: number = 0;
+  @Input() totalMachines: number = 0;
+  @Input() totalKlasikCount: number = 0;
+  @Input() totalPowerPackCount: number = 0;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 

@@ -5,6 +5,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {ProfileResponse} from "../models/profile-response.model";
 import {LoginResponse} from "../models/login-response.model";
 import {map} from "rxjs/operators";
+import {GetAllActionsResponse} from "../models/actionlog-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -168,6 +169,20 @@ export class ApiService {
         .pipe(
             catchError(this.handleError)
         );
+  }
+
+  getAllActions(token: string): Observable<GetAllActionsResponse> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<GetAllActionsResponse>(`${this.apiUrl}/authorized/getAllActions`, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
+  getHydraulicStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/hydraulic/getHydraulicStats`).pipe(
+        catchError(this.handleError)
+    );
   }
 
   private handleError(error: any): Observable<never> {

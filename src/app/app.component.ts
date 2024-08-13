@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
         return;
       }
     });
+
     const storedVersion = this.cookieService.get('appVersion');
     if (storedVersion !== this.appVersion) {
       this.clearCookies();

@@ -16,7 +16,7 @@ import {GetAllVersionsResponse} from "../models/versions-response.model";
 })
 export class ApiService {
 
-  private apiUrl = 'http://ondergrup.hidirektor.com.tr:3000/api/v2';
+  private apiUrl = 'https://ondergrup.hidirektor.com.tr/api/v2';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 

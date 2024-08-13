@@ -104,20 +104,26 @@ export const navItems: INavData[] = [
     attributes: { target: '_blank' }
   },
   {
+    name: 'Hidrolik Programı',
+    url: 'https://github.com/hidirektor/ondergrup-hydraulic-tool/releases',
+    iconComponent: { name: 'cilCalculator' },
+    attributes: { target: '_blank' }
+  },
+  {
     name: 'Portainer Panel',
-    url: 'https://ondergrup.hidirektor.com.tr:9443',
+    url: 'https://85.95.231.92:9443',
     iconComponent: { name: 'cilSettings' },
     attributes: { target: '_blank' }
   },
   {
     name: 'PhPMyAdmin',
-    url: 'http://ondergrup.hidirektor.com.tr:8183',
+    url: 'http://85.95.231.92:8183',
     iconComponent: { name: 'cilBasket' },
     attributes: { target: '_blank' }
   },
   {
     name: 'MinIO Panel',
-    url: 'http://ondergrup.hidirektor.com.tr:9099',
+    url: 'http://85.95.231.92:9099',
     iconComponent: { name: 'cilFile' },
     attributes: { target: '_blank' }
   }

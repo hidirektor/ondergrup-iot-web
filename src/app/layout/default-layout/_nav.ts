@@ -48,6 +48,11 @@ export const navItems: INavData[] = [
     iconComponent: {name: 'cil-check'}
   },
   {
+    name: 'Alt Kullanıcıları Görüntüle',
+    url: '/subusers',
+    iconComponent: {name: 'cilUserFollow'}
+  },
+  {
     title: true,
     name: 'Makine Yönetimi'
   },

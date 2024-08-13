@@ -143,6 +143,11 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/authorized/getAllUsers`, { headers });
   }
 
+  getAllSubUsers(token: string): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get(`${this.apiUrl}/authorized/getAllSubUsers`, { headers });
+  }
+
   deleteUser(userID: string, userName: string, token: string): Observable<any> {
     const headers = this.getAuthHeaders(token);
     const body = { userID, userName };

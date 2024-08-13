@@ -51,6 +51,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/ownedmachines/routes').then((m) => m.routes)
       },
       {
+        path: 'subusers',
+        loadChildren: () => import('./views/customscreens/subusers/routes').then((m) => m.routes)
+      },
+      {
         path: 'maintenances',
         loadChildren: () => import('./views/customscreens/maintenances/routes').then((m) => m.routes)
       },

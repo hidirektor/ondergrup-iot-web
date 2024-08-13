@@ -36,7 +36,7 @@
                                 <td>{{ hydraulic.orderID }}</td>
                                 <td>{{ hydraulic.schematicID }}</td>
                                 <td>{{ hydraulic.partListID }}</td>
-                                <td>{{ hydraulic.createdDate | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ (hydraulic.createdDate * 1000) | date:'dd/MM/yyyy' }}</td>
                                 <td class="text-center">
                                     <button (click)="viewPartList(hydraulic.orderID)" class="btn btn-info mb-3 me-2 ms-2">Parça Listesini Görüntüle</button>
                                     <button (click)="viewSchematic(hydraulic.orderID)" class="btn btn-info mb-3 me-2 ms-2">Şemayı Görüntüle</button>

@@ -16,55 +16,55 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/dashboards/dashboard/routes').then((m) => m.routes)
       },
       {
         path: 'users',
-        loadChildren: () => import('./views/customscreens/usersdashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/dashboards/usersdashboard/routes').then((m) => m.routes)
       },
       {
         path: 'add-user',
-        loadChildren: () => import('./views/customscreens/adduser/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/userControl/adduser/routes').then((m) => m.routes)
       },
       {
         path: 'profile',
-        loadChildren: () => import('./views/customscreens/profile/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/userControl/profile/routes').then((m) => m.routes)
       },
       {
         path: 'edit-profile/:userID',
-        loadChildren: () => import('./views/customscreens/editprofile/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/userControl/editprofile/routes').then((m) => m.routes)
       },
       {
         path: 'create-version',
-        loadChildren: () => import('./views/customscreens/createversion/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/versionControl/createversion/routes').then((m) => m.routes)
       },
       {
         path: 'all-versions',
-        loadChildren: () => import('./views/customscreens/allversions/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/versionControl/allversions/routes').then((m) => m.routes)
       },
       {
         path: 'machines',
-        loadChildren: () => import('./views/customscreens/machines/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/machineControl/machines/routes').then((m) => m.routes)
       },
       {
         path: 'machines/:ownerName',
-        loadChildren: () => import('./views/customscreens/ownedmachines/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/machineControl/ownedmachines/routes').then((m) => m.routes)
       },
       {
         path: 'subusers',
-        loadChildren: () => import('./views/customscreens/subusers/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/userControl/subusers/routes').then((m) => m.routes)
       },
       {
         path: 'maintenances',
-        loadChildren: () => import('./views/customscreens/maintenances/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/machineControl/maintenances/routes').then((m) => m.routes)
       },
       {
         path: 'hydraulic',
-        loadChildren: () => import('./views/customscreens/hydraulic/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/hydraulic/routes').then((m) => m.routes)
       },
       {
         path: 'isstracker',
-        loadChildren: () => import('./views/customscreens/isstracker/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/screens/isstracker/routes').then((m) => m.routes)
       },
       {
         path: 'theme',
@@ -99,35 +99,35 @@ export const routes: Routes = [
         loadChildren: () => import('./views/charts/routes').then((m) => m.routes)
       },
       {
-        path: 'pages',
-        loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
+        path: 'generalPages',
+        loadChildren: () => import('./views/screens/generalPages/routes').then((m) => m.routes)
       }
     ]
   },
   {
     path: '404',
-    loadComponent: () => import('./views/pages/page404/page404.component').then(m => m.Page404Component),
+    loadComponent: () => import('./views/screens/generalPages/page404/page404.component').then(m => m.Page404Component),
     data: {
       title: 'Page 404'
     }
   },
   {
     path: '500',
-    loadComponent: () => import('./views/pages/page500/page500.component').then(m => m.Page500Component),
+    loadComponent: () => import('./views/screens/generalPages/page500/page500.component').then(m => m.Page500Component),
     data: {
       title: 'Page 500'
     }
   },
   {
     path: 'login',
-    loadComponent: () => import('./views/pages/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./views/screens/generalPages/login/login.component').then(m => m.LoginComponent),
     data: {
       title: 'Giriş Yap'
     }
   },
   {
     path: 'register',
-    loadComponent: () => import('./views/pages/register/register.component').then(m => m.RegisterComponent),
+    loadComponent: () => import('./views/screens/generalPages/register/register.component').then(m => m.RegisterComponent),
     data: {
       title: 'Kayıt Ol'
     }

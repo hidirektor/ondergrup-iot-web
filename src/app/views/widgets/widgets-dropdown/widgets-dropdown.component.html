@@ -4,7 +4,7 @@
             <c-card-header>Kullanıcı</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ totalUsers }} Toplam Kullanıcı</h5>
-                <button color="primary" cButton class="shadow">Kullanıcıları Görüntüle</button>
+                <button color="primary" cButton class="shadow" (click)="redirectToUsers()">Kullanıcıları Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>
@@ -14,7 +14,7 @@
             <c-card-header>Mühendis</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ engineerCount }} Toplam Mühendis</h5>
-                <button color="warning" cButton class="shadow">Mühendisleri Görüntüle</button>
+                <button color="warning" cButton class="shadow" (click)="redirectToUsers()">Mühendisleri Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>
@@ -24,7 +24,7 @@
             <c-card-header>Teknisyen</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ technicianCount }} Toplam Teknisyen</h5>
-                <button color="danger" cButton class="shadow">Teknisyenleri Görüntüle</button>
+                <button color="danger" cButton class="shadow" (click)="redirectToUsers()">Teknisyenleri Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>
@@ -34,7 +34,7 @@
             <c-card-header>Makine</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ totalMachines }} Toplam Makine</h5>
-                <button color="info" cButton class="shadow">Makineleri Görüntüle</button>
+                <button color="info" cButton class="shadow" (click)="redirectToMachines()">Makineleri Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>
@@ -44,7 +44,7 @@
             <c-card-header>Hidrolik</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ totalKlasikCount }} Toplam Klasik Ünite</h5>
-                <button color="info" cButton class="shadow">Üniteleri Görüntüle</button>
+                <button color="info" cButton class="shadow" (click)="redirectToHydraulic()">Üniteleri Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>
@@ -54,7 +54,7 @@
             <c-card-header>Hidrolik</c-card-header>
             <c-card-body class="bg-gradient">
                 <h5 cCardTitle>{{ totalPowerPackCount }} Toplam PowerPack Ünite</h5>
-                <button color="info" cButton class="shadow">Üniteleri Görüntüle</button>
+                <button color="info" cButton class="shadow" (click)="redirectToHydraulic()">Üniteleri Görüntüle</button>
             </c-card-body>
         </c-card>
     </c-col>

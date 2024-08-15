@@ -10,7 +10,7 @@ import {
   RowComponent,
   WidgetStatAComponent
 } from "@coreui/angular";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {ChartjsComponent} from "@coreui/angular-chartjs";
 
 @Component({
@@ -41,11 +41,23 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   @Input() totalKlasikCount: number = 0;
   @Input() totalPowerPackCount: number = 0;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit(): void {}
 
   ngAfterContentInit(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  redirectToHydraulic() {
+    this.router.navigate(['/hydraulic']);
+  }
+
+  redirectToMachines() {
+    this.router.navigate(['/machines']);
+  }
+
+  redirectToUsers() {
+    this.router.navigate(['/users']);
   }
 }

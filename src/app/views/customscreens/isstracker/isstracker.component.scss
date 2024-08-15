@@ -1,0 +1,36 @@
+:host {
+  .legend {
+    small {
+      font-size: x-small;
+    }
+  }
+
+  .map-container {
+    height: 500px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .mode-toggle, .map-toggle, .layer-controls, .map-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .statistics-panel {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+    .map-container {
+      border-color: #555;
+    }
+  }
+}

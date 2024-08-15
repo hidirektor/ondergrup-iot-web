@@ -63,6 +63,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/customscreens/hydraulic/routes').then((m) => m.routes)
       },
       {
+        path: 'isstracker',
+        loadChildren: () => import('./views/customscreens/isstracker/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

@@ -1,0 +1,42 @@
+<c-card class="my-4">
+    <c-card-header>
+        <h3>ISS Tracker</h3>
+        <div class="mode-toggle">
+            <button (click)="toggleMode()">Toggle Dark/Light Mode</button>
+        </div>
+        <div class="map-toggle">
+            <button (click)="toggleMapView()">Toggle 2D/3D Map</button>
+        </div>
+        <div class="layer-controls">
+            <label><input type="checkbox" (change)="toggleLayer('dayNight')"> Day/Night Layer</label>
+            <label><input type="checkbox" (change)="toggleLayer('cloud')"> Cloud Layer</label>
+            <label><input type="checkbox" (change)="toggleLayer('rainfall')"> Rainfall Layer</label>
+            <label><input type="checkbox" (change)="toggleLayer('snowfall')"> Snowfall Layer</label>
+            <label><input type="checkbox" (change)="toggleLayer('orbit')"> Orbit</label>
+            <label><input type="checkbox" (change)="toggleLayer('futureOrbit')"> Future Orbit</label>
+            <label><input type="checkbox" (change)="toggleLayer('horizon')"> Horizon</label>
+            <label><input type="checkbox" (change)="toggleStatistics()"> Show Statistics</label>
+        </div>
+        <div class="map-controls">
+            <button (click)="currentLocation()">Current Location</button>
+            <button (click)="toggleFullScreen()">Full Screen</button>
+        </div>
+    </c-card-header>
+    <c-card-body>
+        <c-row>
+            <c-col xs="12" class="mt-4">
+                <h3>Real-Time ISS Tracker</h3>
+                <div id="map" class="map-container"></div>
+                <div *ngIf="showStatistics" class="statistics-panel">
+                    <p>Latitude: {{statistics.lat}}</p>
+                    <p>Longitude: {{statistics.lon}}</p>
+                    <p>Altitude: {{statistics.altitude}} km</p>
+                    <p>Velocity: {{statistics.velocity}} km/h</p>
+                    <p>Period: {{statistics.period}} min</p>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-body>
+</c-card>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4ecBVpBwGZIKkawK2Tl5A8GwIn9RSYlE"></script>

@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mariadb:latest
+    container_name: mysql
+    volumes:
+      - /var/docker/mariadb/conf:/etc/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - bridge-network
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: power145
+      MYSQL_ROOT_PASSWORD: onderadmin1456
+      MYSQL_DATABASE: ondergrup_iot
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dev_pma
+    links:
+      - mysql
+    ports:
+      - 8183:80
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+    restart: always
+    networks:
+      - bridge-network
+
+  minio:
+    image: minio/minio
+    ports:
+      - 9091:9091
+      - 9099:9099
+    environment:
+      MINIO_ROOT_USER: masoud
+      MINIO_ROOT_PASSWORD: Power1456!_
+      MINIO_SERVER_URL: http://127.0.0.1:9099
+
+    volumes:
+      - minio_storage:/data
+    networks:
+      - bridge-network
+    command: server --address ":9099" --console-address ":9091" /data
+    restart: always
+
+volumes:
+  minio_storage: {}
+
+networks:
+  bridge-network:
+    driver: bridge

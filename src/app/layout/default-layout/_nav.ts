@@ -131,5 +131,11 @@ export const navItems: INavData[] = [
     url: 'http://85.95.231.92:9099',
     iconComponent: { name: 'cilFile' },
     attributes: { target: '_blank' }
+  },
+  {
+    name: 'RabbitMQ Panel',
+    url: 'http://85.95.231.92:15672',
+    iconComponent: { name: 'cilShareBoxed' },
+    attributes: { target: '_blank' }
   }
 ];

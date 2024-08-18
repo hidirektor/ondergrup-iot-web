@@ -313,7 +313,7 @@ export class ApiService {
     formData.append('versionDesc', versionDesc);
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/updateCheckter/createVersion`, formData)
+    return this.http.post(`${this.apiUrl}/updateChecker/createVersion`, formData)
         .pipe(
             catchError(this.handleError)
         );

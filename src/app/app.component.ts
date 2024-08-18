@@ -15,7 +15,7 @@ import {CookieService} from "ngx-cookie-service";
 export class AppComponent implements OnInit {
   title = 'ÖnderGrup IoT Yönetim Paneli';
 
-  private appVersion = '19.08.24';
+  private appVersion = '19.08.24-2';
 
   constructor(
     private router: Router,

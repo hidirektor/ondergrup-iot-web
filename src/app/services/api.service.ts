@@ -289,8 +289,10 @@ export class ApiService {
         );
   }
 
-  createVersion(versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
-    const userID = this.cookieService.get('userID');
+  createVersion(token: string, versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    const userID = this.getCookie('userID');
+    console.log(userID);
 
     const allowedExtensions = ['hex', 'bin'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
@@ -302,18 +304,12 @@ export class ApiService {
     const formData = new FormData();
     formData.append("operationPlatform", "Admin Panel");
     formData.append("sourceUserID", userID);
-    formData.append("affectedUserID", "");
-    formData.append("affectedUserName", "");
-    formData.append("affectedMachineID", "");
-    formData.append("affectedMaintenanceID", "");
-    formData.append("affectedHydraulicUnitID", "");
-    formData.append('userID', userID);
     formData.append('versionCode', versionCode);
     formData.append('versionTitle', versionTitle);
     formData.append('versionDesc', versionDesc);
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/updateChecker/createVersion`, formData)
+    return this.http.post(`${this.apiUrl}/updateChecker/createVersion`, formData, { headers })
         .pipe(
             catchError(this.handleError)
         );
@@ -323,8 +319,10 @@ export class ApiService {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
+      console.log(errorMessage);
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      console.log(errorMessage);
     }
     return throwError(() => new Error(errorMessage));
   }

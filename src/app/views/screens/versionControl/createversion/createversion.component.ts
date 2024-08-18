@@ -71,7 +71,7 @@ export class CreateversionComponent {
     }
 
     try {
-      await firstValueFrom(this.apiService.createVersion(this.versionCode, this.versionTitle, this.versionDesc, this.selectedFile));
+      await firstValueFrom(this.apiService.createVersion(this.apiService.getToken(), this.versionCode, this.versionTitle, this.versionDesc, this.selectedFile));
       this.showAlert('Versiyon başarıyla oluşturuldu.', 'success');
       this.router.navigate(['/dashboard']);
     } catch (error: unknown) {

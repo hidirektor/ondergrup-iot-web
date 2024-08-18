@@ -40,8 +40,7 @@ services:
     environment:
       MINIO_ROOT_USER: masoud
       MINIO_ROOT_PASSWORD: Power1456!_
-      MINIO_SERVER_URL: http://127.0.0.1:9099
-
+      MINIO_SERVER_URL: http://localhost:9099
     volumes:
       - minio_storage:/data
     networks:
@@ -53,8 +52,11 @@ services:
     image: rabbitmq:3.10-rc-management-alpine
     container_name: rabbitmq
     ports:
+      - "5671:5671" #default https port
       - "5672:5672" # AMQP protocol port
       - "15672:15672" # HTTP management UI
+    volumes:
+      - /etc/letsencrypt/live/ondergrup.hidirektor.com.tr:/certs
     environment:
       RABBITMQ_DEFAULT_USER: rabbitmqadminonder
       RABBITMQ_DEFAULT_PASS: rabbitmq1456

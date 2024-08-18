@@ -181,10 +181,21 @@ export class EditprofileComponent implements OnInit {
         delete userData.password;
       }
 
+      const operationPlatform = "Admin Panel";
+      const sourceUserID = userID;
+      let affectedUserID = null;
+      let affectedUserName = null;
+      const affectedMachineID = null;
+      const affectedMaintenanceID = null;
+      const affectedHydraulicUnitID = null;
+
       if (userID === this.cookieUserID) {
-        await firstValueFrom(this.apiService.updateProfile(token, userID, userData));
+        affectedUserID = userID;
+        await firstValueFrom(this.apiService.updateProfile(token, { operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, userID, userData }));
       } else {
-        await this.saveOtherProfile(token, userID, userData);
+        affectedUserID = null;
+        affectedUserName = userData.userName;
+        await this.saveOtherProfile(token, { operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, userID, userData });
       }
 
       this.showAlert('Profil başarıyla güncellendi.', 'success');
@@ -195,11 +206,9 @@ export class EditprofileComponent implements OnInit {
     }
   }
 
-  private async saveOtherProfile(token: string, userID: string, userData: any): Promise<void> {
-    const sourceUserID = this.cookieUserID;
-
+  private async saveOtherProfile(token: string, body: any): Promise<void> {
     try {
-      await firstValueFrom(this.apiService.updateUser(token, sourceUserID, userID, userData));
+      await firstValueFrom(this.apiService.updateUser(token, body));
     } catch (error) {
       console.error('Başka bir kullanıcı profili güncellenirken hata oluştu:', error);
       throw error;  // Hatanın yakalanması için yeniden fırlatıyoruz

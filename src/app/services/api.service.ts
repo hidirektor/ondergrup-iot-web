@@ -84,9 +84,9 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/user/updatePreferences`, { userID, preferencesData }, { headers });
   }
 
-  updateProfile(token: string, userID: string, userData: any): Observable<any> {
+  updateProfile(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
-    return this.http.post(`${this.apiUrl}/user/updateProfile`, { userID, userData }, { headers });
+    return this.http.post(`${this.apiUrl}/user/updateProfile`, body, { headers });
   }
 
   uploadProfilePhoto(userName: string, file: File): Observable<any> {
@@ -148,27 +148,24 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/authorized/getAllSubUsers`, { headers });
   }
 
-  deleteUser(userID: string, userName: string, token: string): Observable<any> {
+  deleteUser(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
-    const body = { userID, userName };
     return this.http.post(`${this.apiUrl}/authorized/deleteUser`, body, { headers })
         .pipe(
             catchError(this.handleError)
         );
   }
 
-  deactivateUser(userID: string, userName: string, token: string): Observable<any> {
+  deactivateUser(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
-    const body = { userID, userName };
     return this.http.post(`${this.apiUrl}/authorized/deActivateUser`, body, { headers })
         .pipe(
             catchError(this.handleError)
         );
   }
 
-  activateUser(userID: string, userName: string, token: string): Observable<any> {
+  activateUser(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
-    const body = { userID, userName };
     return this.http.post(`${this.apiUrl}/authorized/activateUser`, body, { headers })
         .pipe(
             catchError(this.handleError)
@@ -194,13 +191,8 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/authorized/addUser`, body, { headers });
   }
 
-  updateUser(token: string, sourceUserID: string, userID: string, userData: any): Observable<any> {
+  updateUser(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
-    const body = {
-      sourceUserID,
-      userID,
-      userData
-    };
     return this.http.post(`${this.apiUrl}/authorized/updateUser`, body, { headers })
         .pipe(
             catchError(this.handleError)
@@ -308,6 +300,13 @@ export class ApiService {
     }
 
     const formData = new FormData();
+    formData.append("operationPlatform", "Admin Panel");
+    formData.append("sourceUserID", userID);
+    formData.append("affectedUserID", "");
+    formData.append("affectedUserName", "");
+    formData.append("affectedMachineID", "");
+    formData.append("affectedMaintenanceID", "");
+    formData.append("affectedHydraulicUnitID", "");
     formData.append('userID', userID);
     formData.append('versionCode', versionCode);
     formData.append('versionTitle', versionTitle);

@@ -96,14 +96,21 @@ export class AdduserComponent implements OnInit {
     }
 
     const token = this.apiService.getToken();
-    const userID = this.apiService.getCookie('userID'); // userID'yi cookie'den alıyoruz
     const userData = this.addUserForm.value;
+
+    const operationPlatform = "Admin Panel";
+    const sourceUserID = this.apiService.getCookie('userID');
+    const affectedUserID = null;
+    const affectedUserName = userData.userName;
+    const affectedMachineID = null;
+    const affectedMaintenanceID = null;
+    const affectedHydraulicUnitID = null;
 
     try {
       this.loading = true;
 
       // Yeni kullanıcıyı ekleme
-      await firstValueFrom(this.apiService.addUser(token, {...userData, userID}));
+      await firstValueFrom(this.apiService.addUser(token, {operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, ...userData}));
 
       // Profil fotoğrafı varsa yükleme
       if (this.profilePhotoFile) {

@@ -154,8 +154,16 @@ export class UsersdashboardComponent implements OnInit {
       return;
     }
 
+    const operationPlatform = "Admin Panel";
+    const sourceUserID = userID;
+    const affectedUserID = null;
+    const affectedUserName = targetUserName;
+    const affectedMachineID = null;
+    const affectedMaintenanceID = null;
+    const affectedHydraulicUnitID = null;
+
     try {
-      await firstValueFrom(this.apiService.deleteUser(userID, targetUserName, token));
+      await firstValueFrom(this.apiService.deleteUser(token, { operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, userName: targetUserName }));
 
       await this.loadUsers();
 
@@ -176,8 +184,16 @@ export class UsersdashboardComponent implements OnInit {
       return;
     }
 
+    const operationPlatform = "Admin Panel";
+    const sourceUserID = userID;
+    const affectedUserID = null;
+    const affectedUserName = targetUserName;
+    const affectedMachineID = null;
+    const affectedMaintenanceID = null;
+    const affectedHydraulicUnitID = null;
+
     try {
-      await firstValueFrom(this.apiService.deactivateUser(userID, targetUserName, token));
+      await firstValueFrom(this.apiService.deactivateUser(token, {operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, userName: targetUserName}));
       await this.loadUsers();
 
       this.showAlert('Kullanıcı başarıyla pasifleştirildi.', 'success');
@@ -196,8 +212,16 @@ export class UsersdashboardComponent implements OnInit {
       return;
     }
 
+    const operationPlatform = "Admin Panel";
+    const sourceUserID = userID;
+    const affectedUserID = null;
+    const affectedUserName = targetUserName;
+    const affectedMachineID = null;
+    const affectedMaintenanceID = null;
+    const affectedHydraulicUnitID = null;
+
     try {
-      await firstValueFrom(this.apiService.activateUser(userID, targetUserName, token));
+      await firstValueFrom(this.apiService.activateUser(token, {operationPlatform, sourceUserID, affectedUserID, affectedUserName, affectedMachineID, affectedMaintenanceID, affectedHydraulicUnitID, userName: targetUserName}));
       await this.loadUsers();
 
       this.showAlert('Kullanıcı başarıyla aktifleştirildi.', 'success');

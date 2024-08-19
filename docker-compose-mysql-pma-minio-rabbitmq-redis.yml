@@ -69,6 +69,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
+      - redis_volume_data:/data
       - ./redis.conf:/etc/redis/redis.conf
     command: [ "redis-server", "--include", "/etc/redis/redis.conf" ]
     networks:
@@ -81,11 +82,15 @@ services:
     ports:
       - "8001:8001"
     restart: always
+    volumes:
+      - redis_insight_volume_data:/db
     networks:
       - ondergrup-network
 
 volumes:
   minio_storage: {}
+  redis_volume_data: {}
+  redis_insight_volume_data: {}
 
 networks:
   ondergrup-network:

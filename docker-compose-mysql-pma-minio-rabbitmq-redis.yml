@@ -27,7 +27,7 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_ARBITRARY: 0
-    restart: unless-stopped
+    restart: always
     networks:
       - ondergrup-network
 
@@ -46,7 +46,7 @@ services:
     networks:
       - ondergrup-network
     command: server --address ":9099" --console-address ":9091" /data
-    restart: unless-stopped
+    restart: always
 
   rabbitmq:
     image: rabbitmq:3.10-rc-management-alpine
@@ -61,10 +61,10 @@ services:
       RABBITMQ_DEFAULT_PASS: rabbitmq1456
     networks:
       - ondergrup-network
-    restart: unless-stopped
+    restart: always
 
   redis:
-    image: redis:6.2.5-alpine
+    image: redis:alpine
     container_name: redis
     ports:
       - "6379:6379"
@@ -73,13 +73,20 @@ services:
     command: [ "redis-server", "--include", "/etc/redis/redis.conf" ]
     networks:
       - ondergrup-network
-    restart: unless-stopped
+    restart: always
+
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: redis_insight
+    ports:
+      - "8001:8001"
+    restart: always
+    networks:
+      - ondergrup-network
 
 volumes:
   minio_storage: {}
-  redis_data: {}
 
 networks:
   ondergrup-network:
-    driver: bridge
-    name: ondergrup-network
+    external: true

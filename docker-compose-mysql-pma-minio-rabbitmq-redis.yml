@@ -9,7 +9,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - bridge-network
+      - ondergrup-network
     environment:
       MYSQL_USER: user
       MYSQL_PASSWORD: power145
@@ -29,7 +29,7 @@ services:
       PMA_ARBITRARY: 0
     restart: unless-stopped
     networks:
-      - bridge-network
+      - ondergrup-network
 
   minio:
     image: minio/minio
@@ -44,7 +44,7 @@ services:
     volumes:
       - minio_storage:/data
     networks:
-      - bridge-network
+      - ondergrup-network
     command: server --address ":9099" --console-address ":9091" /data
     restart: unless-stopped
 
@@ -60,12 +60,26 @@ services:
       RABBITMQ_DEFAULT_USER: rabbitmqadminonder
       RABBITMQ_DEFAULT_PASS: rabbitmq1456
     networks:
-      - bridge-network
+      - ondergrup-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:6.2.5-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command: [ "redis-server", "--include", "/etc/redis/redis.conf" ]
+    networks:
+      - ondergrup-network
     restart: unless-stopped
 
 volumes:
   minio_storage: {}
+  redis_data: {}
 
 networks:
-  bridge-network:
+  ondergrup-network:
     driver: bridge
+    name: ondergrup-network

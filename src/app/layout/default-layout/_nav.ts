@@ -98,6 +98,18 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-calculator' }
   },
   {
+    name: 'Boşluk Değerleri',
+    url: '/hydraulic-parameters',
+    linkProps: { fragment: 'headings' },
+    iconComponent: { name: 'cilPen' }
+  },
+  {
+    name: 'Parça Listesi',
+    url: '/hydraulic-partlist',
+    linkProps: { fragment: 'headings' },
+    iconComponent: { name: 'cilTags' }
+  },
+  {
     title: true,
     name: 'Faydalı Linkler',
     class: 'mt-auto'

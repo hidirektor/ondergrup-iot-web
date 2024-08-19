@@ -4,13 +4,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {ApiService} from '../../../../services/api.service';
 import {
-  AlertComponent,
-  CardBodyComponent,
-  CardComponent,
-  CardFooterComponent,
-  CardHeaderComponent,
-  ColComponent,
-  RowComponent
+    AlertComponent,
+    CardBodyComponent,
+    CardComponent,
+    CardFooterComponent,
+    CardHeaderComponent,
+    ColComponent,
+    RowComponent
 } from "@coreui/angular";
 import {DatePipe, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -147,7 +147,7 @@ export class EditprofileComponent implements OnInit {
       this.loading = true;
 
       try {
-        await firstValueFrom(this.apiService.uploadProfilePhoto(userName, file));
+        await firstValueFrom(this.apiService.uploadProfilePhoto(this.apiService.getToken(), userName, file));
         const objectURL = URL.createObjectURL(file);
         this.profilePhotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
         this.showAlert('Profil fotoğrafı başarıyla güncellendi.', 'success');

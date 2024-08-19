@@ -89,12 +89,13 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/user/updateProfile`, body, { headers });
   }
 
-  uploadProfilePhoto(userName: string, file: File): Observable<any> {
+  uploadProfilePhoto(token: string, userName: string, file: File): Observable<any> {
+    const headers = this.getAuthHeaders(token);
     const formData = new FormData();
     formData.append('userName', userName);
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/user/uploadProfilePhoto`, formData);
+    return this.http.post(`${this.apiUrl}/user/uploadProfilePhoto`, formData, { headers });
   }
 
   downloadProfilePhoto(userName: string): Observable<Blob> {

@@ -4,13 +4,13 @@ import {Router} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {ApiService} from '../../../../services/api.service';
 import {
-  AlertComponent,
-  CardBodyComponent,
-  CardComponent,
-  CardFooterComponent,
-  CardHeaderComponent,
-  ColComponent,
-  RowComponent
+    AlertComponent,
+    CardBodyComponent,
+    CardComponent,
+    CardFooterComponent,
+    CardHeaderComponent,
+    ColComponent,
+    RowComponent
 } from "@coreui/angular";
 import {DatePipe, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -114,7 +114,7 @@ export class AdduserComponent implements OnInit {
 
       // Profil fotoğrafı varsa yükleme
       if (this.profilePhotoFile) {
-        await firstValueFrom(this.apiService.uploadProfilePhoto(userData.userName, this.profilePhotoFile));
+        await firstValueFrom(this.apiService.uploadProfilePhoto(token, userData.userName, this.profilePhotoFile));
       }
 
       this.showAlert('Kullanıcı başarıyla eklendi.', 'success');

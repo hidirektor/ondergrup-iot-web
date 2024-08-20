@@ -90,14 +90,12 @@ export class ApiService {
   }
 
   uploadProfilePhoto(token: string, userName: string, file: File): Observable<any> {
-    const headers = new HttpHeaders({
-      'authorization': `Bearer ${token}`
-    });
     const formData = new FormData();
     formData.append('userName', userName);
+    formData.append('accessToken', token);
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/user/uploadProfilePhoto`, formData, { headers });
+    return this.http.post(`${this.apiUrl}/user/uploadProfilePhoto`, formData);
   }
 
   downloadProfilePhoto(userName: string): Observable<Blob> {
@@ -293,9 +291,6 @@ export class ApiService {
   }
 
   createVersion(token: string, versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
-    const headers = new HttpHeaders({
-      'authorization': `Bearer ${token}`
-    });
     const userID = this.getCookie('userID');
     console.log(userID);
 
@@ -312,9 +307,10 @@ export class ApiService {
     formData.append('versionCode', versionCode);
     formData.append('versionTitle', versionTitle);
     formData.append('versionDesc', versionDesc);
+    formData.append('accessToken', token);
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/updateChecker/createVersion`, formData, { headers })
+    return this.http.post(`${this.apiUrl}/updateChecker/createVersion`, formData)
         .pipe(
             catchError(this.handleError)
         );

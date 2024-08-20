@@ -15,6 +15,12 @@ export const navItems: INavData[] = [
     name: 'Sistem Ayarları'
   },
   {
+    name: 'Bildirim Gönder',
+    url: '/send-notification',
+    linkProps: { fragment: 'headings' },
+    iconComponent: { name: 'cilReportSlash' },
+  },
+  {
     name: 'Tema',
     url: '/theme',
     iconComponent: {name: 'cil-puzzle'},

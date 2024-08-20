@@ -1,0 +1,40 @@
+<div *ngIf="loading" class="loading-overlay">
+    <div class="text-center">
+        <i class="spinner-grow spinner-grow-sm"></i>
+        <span class="m-1">Bildirim gönderiliyor...</span>
+    </div>
+</div>
+
+<c-card class="my-4">
+    <c-card-header>
+        <h3>Bildirim Gönder</h3>
+    </c-card-header>
+    <c-card-body>
+        <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
+            <div class="form-group">
+                <label for="title">Başlık</label>
+                <input type="text" id="title" formControlName="title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="desc">Açıklama</label>
+                <textarea id="desc" formControlName="desc" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="notificationType">Bildirim Türü</label>
+                <select id="notificationType" formControlName="notificationType" class="form-control" (change)="onNotificationTypeChange()">
+                    <option value="mail">E-Posta</option>
+                    <option value="sms" disabled>SMS (Henüz aktif değil)</option>
+                    <option value="mobile" disabled>Mobil Bildirim (Henüz aktif değil)</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3" [disabled]="notificationForm.invalid">Gönder</button>
+            </div>
+        </form>
+    </c-card-body>
+    <c-card-footer>
+        <c-alert *ngIf="alertVisible" [color]="alertColor" dismissible (click)="alertVisible = false">
+            {{ alertMessage }}
+        </c-alert>
+    </c-card-footer>
+</c-card>

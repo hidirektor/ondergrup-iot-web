@@ -200,6 +200,14 @@ export class ApiService {
         );
   }
 
+  sendAlertMail(token: string, body: any): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post(`${this.apiUrl}/authorized/sendAlertMail`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
   getAllHydraulicUnits(unitType: string = ''): Observable<HydraulicDetailsResponse> {
     const body = { UnitType: unitType };
     return this.http.post<HydraulicDetailsResponse>(`${this.apiUrl}/hydraulic/getHydraulicDetails`, body)

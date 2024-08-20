@@ -67,6 +67,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/screens/isstracker/routes').then((m) => m.routes)
       },
       {
+        path: 'send-notification',
+        loadChildren: () => import('./views/screens/adminPages/sendNotification/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

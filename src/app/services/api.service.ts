@@ -27,6 +27,12 @@ export class ApiService {
     });
   }
 
+  private getAuthHeadersMultipart(token: string): HttpHeaders {
+    return new HttpHeaders({
+      'authorization': `Bearer ${token}`
+    });
+  }
+
   login(body: any): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, body);
   }
@@ -90,7 +96,7 @@ export class ApiService {
   }
 
   uploadProfilePhoto(token: string, userName: string, file: File): Observable<any> {
-    const headers = this.getAuthHeaders(token);
+    const headers = this.getAuthHeadersMultipart(token);
     const formData = new FormData();
     formData.append('userName', userName);
     formData.append('file', file);
@@ -291,7 +297,7 @@ export class ApiService {
   }
 
   createVersion(token: string, versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
-    const headers = this.getAuthHeaders(token);
+    const headers = this.getAuthHeadersMultipart(token);
     const userID = this.getCookie('userID');
     console.log(userID);
 

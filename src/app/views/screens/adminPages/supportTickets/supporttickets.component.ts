@@ -1,12 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {ApiService} from '../../../../services/api.service';
 import {firstValueFrom} from 'rxjs';
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {HttpCoreInterceptor} from "../../../../http-core.interceptor";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 
 interface ISupportTicket {
   id: number;
+  ownerID?: string;  // ownerID opsiyonel olarak işaretlendi
   title: string;
   subject: string;
   ticketStatus: string;
@@ -14,40 +17,54 @@ interface ISupportTicket {
   createdDate: number;
 }
 
+interface IChatMessage {
+  userID: string;
+  userName: string;
+  nameSurname: string;
+  commentDate: number;
+  comment: string;
+}
+
 @Component({
   selector: 'app-supporttickets',
   templateUrl: './supporttickets.component.html',
-  standalone: true,
   imports: [
     HttpClientModule,
     NgClass,
     NgForOf,
     DatePipe,
-    NgIf
+    NgIf,
+    FormsModule
   ],
   providers: [
     ApiService,
+    NgbModal,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCoreInterceptor,
       multi: true
     }
   ],
-  styleUrls: ['./supporttickets.component.scss']
+  styleUrls: ['./supporttickets.component.scss'],
+  standalone: true
 })
 export class SupportTicketsComponent implements OnInit {
   public tickets: ISupportTicket[] = [];
   public filteredTickets: ISupportTicket[] = [];
-  public loading: boolean = false; // loading alanı eklendi
+  public chatMessages: IChatMessage[] = [];
+  public newMessage: string = '';
+  public loading: boolean = false;
+  private modalRef: NgbModalRef | undefined;
+  public currentTicket: ISupportTicket | undefined;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.loadTickets();
   }
 
   async loadTickets(): Promise<void> {
-    this.loading = true; // Yükleme işlemi başladığında loading'i true yap
+    this.loading = true;
     try {
       const response = await firstValueFrom(this.apiService.getAllTickets(this.apiService.getToken()));
       this.tickets = response as ISupportTicket[];
@@ -55,7 +72,7 @@ export class SupportTicketsComponent implements OnInit {
     } catch (error) {
       console.error('Failed to load tickets:', error);
     } finally {
-      this.loading = false; // Yükleme işlemi tamamlandığında loading'i false yap
+      this.loading = false;
     }
   }
 
@@ -67,7 +84,7 @@ export class SupportTicketsComponent implements OnInit {
     switch (status) {
       case 'Created':
         return 'text-success';
-      case 'Customer Answered':
+      case 'Customer Response':
         return 'text-warning';
       case 'Answered':
         return 'text-primary';
@@ -78,14 +95,50 @@ export class SupportTicketsComponent implements OnInit {
     }
   }
 
-  async respondToTicket(ticketID: number): Promise<void> {
-    const comment = prompt('Yanıtınızı giriniz:');
-    if (comment) {
+  openChat(content: TemplateRef<any>, ticket: ISupportTicket): void {
+    try {
+      this.currentTicket = ticket;
+      const parsedResponses = JSON.parse(ticket.responses);
+      this.chatMessages = parsedResponses.responses || [];
+    } catch (error) {
+      console.error('Error parsing responses:', error);
+      this.chatMessages = [];
+    }
+    this.newMessage = '';
+    this.modalRef = this.modalService.open(content);
+  }
+
+  closeModal(): void {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
+  }
+
+  async sendMessage(): Promise<void> {
+    if (this.newMessage.trim() && this.currentTicket) {
+      const newChatMessage: IChatMessage = {
+        userID: this.apiService.getCookie('userID'),
+        userName: this.apiService.getCookie('userName'),
+        nameSurname: this.apiService.getCookie('nameSurname'),
+        commentDate: Date.now(),
+        comment: this.newMessage,
+      };
+
+      this.chatMessages.push(newChatMessage);
+      this.newMessage = '';
+
       try {
-        await firstValueFrom(this.apiService.responseTicket(this.apiService.getToken(), { id: ticketID, userID: this.apiService.getCookie("userID"), comment }));
-        this.loadTickets(); // Talep yanıtlandıktan sonra listeyi yeniden yükleyin
+        await firstValueFrom(this.apiService.responseTicket(this.apiService.getToken(), {
+          id: this.currentTicket.id,
+          userID: newChatMessage.userID,
+          comment: newChatMessage.comment
+        }));
+
+        // Modal'ı kapat ve tabloyu güncelle
+        this.closeModal();
+        this.loadTickets();
       } catch (error) {
-        console.error('Failed to respond to ticket:', error);
+        console.error('Failed to send message:', error);
       }
     }
   }
@@ -94,36 +147,49 @@ export class SupportTicketsComponent implements OnInit {
     if (confirm('Bu talebi kapatmak istediğinize emin misiniz?')) {
       try {
         await firstValueFrom(this.apiService.closeTicket(this.apiService.getToken(), { id: ticketID }));
-        this.loadTickets(); // Talep kapatıldıktan sonra listeyi yeniden yükleyin
+        this.loadTickets();
       } catch (error) {
         console.error('Failed to close ticket:', error);
       }
     }
   }
 
-  // Yeni fonksiyon: Responses içinden en son yorumu çekmek için
   getLatestComment(responses: string): string {
-    const parsedResponses = JSON.parse(responses);
-    if (parsedResponses.responses && parsedResponses.responses.length > 0) {
-      const latestResponse = parsedResponses.responses[parsedResponses.responses.length - 1];
-      return latestResponse.comment;
+    try {
+      const parsedResponses = JSON.parse(responses);
+      if (parsedResponses.responses && parsedResponses.responses.length > 0) {
+        const latestResponse = parsedResponses.responses[parsedResponses.responses.length - 1];
+        return latestResponse.comment;
+      }
+    } catch (error) {
+      console.error('Error parsing responses:', error);
     }
     return '';
   }
 
-  // Yeni fonksiyon: Status değerini çevirmek için
   getTranslatedStatus(status: string): string {
     switch (status) {
       case 'Created':
         return 'Oluşturuldu';
-      case 'Customer Answered':
+      case 'Customer Response':
         return 'Müşteri Yanıtı';
       case 'Answered':
         return 'Yanıtlandı';
       case 'Closed':
         return 'Kapatıldı';
       default:
-        return status; // Bilinmeyen statüler için orijinal değeri döndür
+        return status;
     }
+  }
+
+  isOwnerMessage(message: IChatMessage): boolean {
+    if (this.currentTicket?.ownerID) {
+      const isOwner = this.currentTicket.ownerID === message.userID;
+      console.log('Owner ID:', this.currentTicket.ownerID);
+      console.log('Message User ID:', message.userID);
+      console.log('Is owner message:', isOwner);
+      return isOwner;
+    }
+    return false;
   }
 }

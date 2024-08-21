@@ -136,7 +136,7 @@ export class SupportTicketsComponent implements OnInit {
 
         // Modal'ı kapat ve tabloyu güncelle
         this.closeModal();
-        this.loadTickets();
+        await this.loadTickets();
       } catch (error) {
         console.error('Failed to send message:', error);
       }
@@ -146,8 +146,8 @@ export class SupportTicketsComponent implements OnInit {
   async closeTicket(ticketID: number): Promise<void> {
     if (confirm('Bu talebi kapatmak istediğinize emin misiniz?')) {
       try {
-        await firstValueFrom(this.apiService.closeTicket(this.apiService.getToken(), { id: ticketID }));
-        this.loadTickets();
+        await firstValueFrom(this.apiService.closeTicket(this.apiService.getToken(), { id: ticketID, operationPlatform: "Admin Panel", sourceUserID: this.apiService.getCookie('userID') }));
+        await this.loadTickets();
       } catch (error) {
         console.error('Failed to close ticket:', error);
       }

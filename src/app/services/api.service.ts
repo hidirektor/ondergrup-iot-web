@@ -337,7 +337,7 @@ export class ApiService {
         .pipe(catchError(this.handleError));
   }
 
-  closeTicket(token: string, body: { id: number }): Observable<any> {
+  closeTicket(token: string, body: any): Observable<any> {
     const headers = this.getAuthHeaders(token);
 
     return this.http.post(`${this.apiUrl}/ticket/closeTicket`, body, { headers })

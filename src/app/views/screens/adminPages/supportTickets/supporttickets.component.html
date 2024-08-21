@@ -31,7 +31,7 @@
             <td>{{ ticket.createdDate | date:'short' }}</td>
             <td>{{ getLatestComment(ticket.responses) }}</td>
             <td>
-                <button class="btn btn-info btn-sm me-2" (click)="openChat(chatModalTemplate, ticket)">Yanıtla</button>
+                <button *ngIf="currentTicket?.ticketStatus !== 'Closed'" class="btn btn-info btn-sm me-2" (click)="openChat(chatModalTemplate, ticket)">Yanıtla</button>
                 <button class="btn btn-danger btn-sm" (click)="closeTicket(ticket.id)">Kapat</button>
             </td>
         </tr>

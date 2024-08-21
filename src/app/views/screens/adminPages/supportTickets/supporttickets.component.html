@@ -14,11 +14,11 @@
     <div *ngFor="let ticket of filteredTickets"
          class="ticket-item border rounded p-3 mb-3"
          [ngClass]="{
-             'ticket-new': ticket.ticketStatus === 'Created',
-             'ticket-customer-response': ticket.ticketStatus === 'Customer Response',
-             'ticket-answered': ticket.ticketStatus === 'Answered',
-             'ticket-closed': ticket.ticketStatus === 'Closed'
-         }">
+           'ticket-new': ticket.ticketStatus === 'Created',
+           'ticket-customer-response': ticket.ticketStatus === 'Customer Response',
+           'ticket-answered': ticket.ticketStatus === 'Answered',
+           'ticket-closed': ticket.ticketStatus === 'Closed'
+       }">
         <h5>{{ ticket.title }}</h5>
         <p><strong>Konu:</strong> {{ ticket.subject }}</p>
         <p><strong>Durum:</strong> <span [ngClass]="getStatusClass(ticket.ticketStatus)">{{ getTranslatedStatus(ticket.ticketStatus) }}</span></p>
@@ -45,24 +45,27 @@
         </div>
         <div class="modal-body">
             <div class="chat-window">
-                <div
+                <div style="margin-bottom: 10px; align-self: flex-end; max-width: fit-content;"
                         class="message"
                         *ngFor="let message of chatMessages"
                         [ngClass]="{
-        'message-right': !isOwnerMessage(message),
-        'message-left': isOwnerMessage(message)
-      }"
+            'message-right': !isOwnerMessage(message),
+            'message-left': isOwnerMessage(message)
+          }"
                 >
                     <strong>{{ message.userName }}:</strong> {{ message.comment }}
+                    <div class="message-date" style="text-align: right">
+                        <small>{{ message.commentDate * 1000 | date:'dd/MM/yyyy HH:mm:ss' }}</small>
+                    </div>
                 </div>
             </div>
-            <div class="mt-3">
+            <div class="mt-3" *ngIf="currentTicket?.ticketStatus !== 'Closed'">
                 <textarea [(ngModel)]="newMessage" class="form-control" rows="3" placeholder="Mesajınızı yazın..."></textarea>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeModal()">Kapat</button>
-            <button type="button" class="btn btn-primary" (click)="sendMessage()">Gönder</button>
+            <button *ngIf="currentTicket?.ticketStatus !== 'Closed'" type="button" class="btn btn-primary" (click)="sendMessage()">Gönder</button>
         </div>
     </ng-template>
 </div>

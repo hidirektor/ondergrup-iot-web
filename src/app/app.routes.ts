@@ -71,6 +71,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/screens/adminPages/sendNotification/routes').then((m) => m.routes)
       },
       {
+        path: 'tickets',
+        loadChildren: () => import('./views/screens/adminPages/supportTickets/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

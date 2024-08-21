@@ -1,0 +1,33 @@
+:host {
+  .legend {
+    small {
+      font-size: x-small;
+    }
+  }
+
+  .text-success {
+    color: green !important;
+  }
+
+  .text-warning {
+    color: orange !important;
+  }
+
+  .text-primary {
+    color: blue !important;
+  }
+
+  .text-dark {
+    color: black !important;
+  }
+
+  .filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+}

@@ -300,7 +300,6 @@ export class ApiService {
 
   createVersion(token: string, versionCode: string, versionTitle: string, versionDesc: string, file: File): Observable<any> {
     const userID = this.getCookie('userID');
-    console.log(userID);
 
     const allowedExtensions = ['hex', 'bin'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
@@ -322,6 +321,34 @@ export class ApiService {
         .pipe(
             catchError(this.handleError)
         );
+  }
+
+  getAllTickets(token: string): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+
+    return this.http.get(`${this.apiUrl}/ticket/getAllTickets`, { headers })
+        .pipe(catchError(this.handleError));
+  }
+
+  responseTicket(token: string, body: { id: number; userID: string; comment: string }): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+
+    return this.http.post(`${this.apiUrl}/ticket/responseTicket`, body, { headers })
+        .pipe(catchError(this.handleError));
+  }
+
+  closeTicket(token: string, body: { id: number }): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+
+    return this.http.post(`${this.apiUrl}/ticket/closeTicket`, body, { headers })
+        .pipe(catchError(this.handleError));
+  }
+
+  deleteTicket(token: string, body: { id: number }): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+
+    return this.http.delete(`${this.apiUrl}/ticket/deleteTicket`, { body, headers })
+        .pipe(catchError(this.handleError));
   }
 
   private handleError(error: any): Observable<never> {

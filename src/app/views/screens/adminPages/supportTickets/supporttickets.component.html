@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Destek Talepleri</h2>
+
+    <div class="filters mb-3">
+        <button class="btn btn-success me-2" (click)="filterTickets('Created')">Yeni Açılanlar</button>
+        <button class="btn btn-warning me-2" (click)="filterTickets('Customer Answered')">Müşteri Yanıtladı</button>
+        <button class="btn btn-primary me-2" (click)="filterTickets('Answered')">Yanıtlananlar</button>
+        <button class="btn btn-dark" (click)="filterTickets('Closed')">Kapatılanlar</button>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Konu</th>
+            <th>Durum</th>
+            <th>Oluşturulma Tarihi</th>
+            <th>Mesaj</th>
+            <th>İşlemler</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let ticket of filteredTickets">
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.subject }}</td>
+            <td [ngClass]="getStatusClass(ticket.ticketStatus)">
+                {{ getTranslatedStatus(ticket.ticketStatus) }}
+            </td>
+            <td>{{ ticket.createdDate | date:'short' }}</td>
+            <td>{{ getLatestComment(ticket.responses) }}</td>
+            <td>
+                <button class="btn btn-info btn-sm me-2" (click)="respondToTicket(ticket.id)">Yanıtla</button>
+                <button class="btn btn-danger btn-sm" (click)="closeTicket(ticket.id)">Kapat</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="loading" class="text-center mt-4">
+        <i class="spinner-border text-primary"></i>
+        <span class="ms-2">Yükleniyor...</span>
+    </div>
+</div>

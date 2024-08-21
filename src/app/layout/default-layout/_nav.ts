@@ -21,6 +21,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cilReportSlash' },
   },
   {
+    name: 'Destek Bildirimleri',
+    url: '/tickets',
+    linkProps: { fragment: 'headings' },
+    iconComponent: { name: 'cilNotes' },
+  },
+  {
     name: 'Tema',
     url: '/theme',
     iconComponent: {name: 'cil-puzzle'},

@@ -2,41 +2,34 @@
     <h2>Destek Talepleri</h2>
 
     <!-- Filtreleme Butonları -->
-    <div class="filters mb-3">
+    <div class="filters mb-3 text-center">
         <button class="btn btn-success me-2" (click)="filterTickets('Created')">Yeni Açılanlar</button>
-        <button class="btn btn-warning me-2" (click)="filterTickets('Customer Answered')">Müşteri Yanıtladı</button>
+        <button class="btn btn-warning me-2" (click)="filterTickets('Customer Response')">Müşteri Yanıtladı</button>
         <button class="btn btn-primary me-2" (click)="filterTickets('Answered')">Yanıtlananlar</button>
-        <button class="btn btn-dark" (click)="filterTickets('Closed')">Kapatılanlar</button>
+        <button class="btn btn-dark me-2" (click)="filterTickets('Closed')">Kapatılanlar</button>
+        <button class="btn btn-secondary" (click)="showAllTickets()">Tümünü Göster</button>
     </div>
 
-    <!-- Destek Talepleri Tablosu -->
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Başlık</th>
-            <th>Konu</th>
-            <th>Durum</th>
-            <th>Oluşturulma Tarihi</th>
-            <th>Mesaj</th>
-            <th>İşlemler</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let ticket of filteredTickets">
-            <td>{{ ticket.title }}</td>
-            <td>{{ ticket.subject }}</td>
-            <td [ngClass]="getStatusClass(ticket.ticketStatus)">
-                {{ getTranslatedStatus(ticket.ticketStatus) }}
-            </td>
-            <td>{{ ticket.createdDate | date:'short' }}</td>
-            <td>{{ getLatestComment(ticket.responses) }}</td>
-            <td>
-                <button *ngIf="currentTicket?.ticketStatus !== 'Closed'" class="btn btn-info btn-sm me-2" (click)="openChat(chatModalTemplate, ticket)">Yanıtla</button>
-                <button class="btn btn-danger btn-sm" (click)="closeTicket(ticket.id)">Kapat</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Destek Talepleri Listesi -->
+    <div *ngFor="let ticket of filteredTickets"
+         class="ticket-item border rounded p-3 mb-3"
+         [ngClass]="{
+             'ticket-new': ticket.ticketStatus === 'Created',
+             'ticket-customer-response': ticket.ticketStatus === 'Customer Response',
+             'ticket-answered': ticket.ticketStatus === 'Answered',
+             'ticket-closed': ticket.ticketStatus === 'Closed'
+         }">
+        <h5>{{ ticket.title }}</h5>
+        <p><strong>Konu:</strong> {{ ticket.subject }}</p>
+        <p><strong>Durum:</strong> <span [ngClass]="getStatusClass(ticket.ticketStatus)">{{ getTranslatedStatus(ticket.ticketStatus) }}</span></p>
+        <p><strong>Oluşturulma Tarihi:</strong> {{ ticket.createdDate * 1000 | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p><strong>Son Mesaj:</strong> {{ getLatestComment(ticket.responses) }}</p>
+        <div class="actions">
+            <button *ngIf="ticket.ticketStatus !== 'Closed' && ticket.ticketStatus !== 'Answered'" class="btn btn-info btn-sm me-2" (click)="openChat(chatModalTemplate, ticket)">Yanıtla</button>
+            <button *ngIf="ticket.ticketStatus !== 'Closed'" class="btn btn-danger btn-sm" (click)="closeTicket(ticket.id)">Kapat</button>
+            <button *ngIf="ticket.ticketStatus === 'Closed'" class="btn btn-secondary btn-sm" (click)="openChat(chatModalTemplate, ticket)">Mesaj Geçmişi</button>
+        </div>
+    </div>
 
     <!-- Yükleniyor Göstergesi -->
     <div *ngIf="loading" class="text-center mt-4">

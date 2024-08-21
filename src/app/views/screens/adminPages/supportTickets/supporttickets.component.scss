@@ -80,6 +80,31 @@
   .modal-footer {
     padding: 10px;
   }
+
+  /* Yeni oluşturulan talep */
+  .ticket-new {
+    background-color: #d4edda; /* Soft yeşil */
+    color: white;
+    font-weight: bold;
+  }
+
+  /* Yanıtlanan talep */
+  .ticket-answered {
+    background-color: #cce5ff; /* Soft mavi */
+    color: #004085; /* Daha koyu mavi */
+  }
+
+  /* Müşteri yanıtladı */
+  .ticket-customer-response {
+    background-color: #fff3cd; /* Soft turuncu */
+    color: #856404; /* Siyah */
+  }
+
+  /* Kapatılan talep */
+  .ticket-closed {
+    background-color: #e2e3e5; /* Gri */
+    color: #383d41; /* Siyah */
+  }
 }
 
 .message-left {

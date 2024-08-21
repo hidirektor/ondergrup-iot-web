@@ -68,7 +68,10 @@ export class SupportTicketsComponent implements OnInit {
     try {
       const response = await firstValueFrom(this.apiService.getAllTickets(this.apiService.getToken()));
       this.tickets = response as ISupportTicket[];
-      this.filteredTickets = [...this.tickets];
+
+      this.filteredTickets = this.tickets.filter(ticket =>
+          ticket.ticketStatus === 'Created' || ticket.ticketStatus === 'Customer Response'
+      );
     } catch (error) {
       console.error('Failed to load tickets:', error);
     } finally {
@@ -191,5 +194,9 @@ export class SupportTicketsComponent implements OnInit {
       return isOwner;
     }
     return false;
+  }
+
+  showAllTickets(): void {
+    this.filteredTickets = [...this.tickets];
   }
 }

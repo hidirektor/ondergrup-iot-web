@@ -111,6 +111,14 @@ export class ApiService {
         );
   }
 
+  sendNotification(token: string, body: { heading: string, iconType: string, icon: string, message: string, subtitle: string }): Observable<any> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post(`${this.apiUrl}/authorized/sendToAll`, body, { headers })
+        .pipe(
+            catchError(this.handleError)
+        );
+  }
+
   checkUser(userName: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/checkUser`, { userName });
   }

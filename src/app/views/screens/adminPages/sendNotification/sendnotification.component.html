@@ -10,25 +10,68 @@
         <h3>Bildirim Gönder</h3>
     </c-card-header>
     <c-card-body>
-        <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
-            <div class="form-group">
-                <label for="title">Başlık</label>
-                <input type="text" id="title" formControlName="title" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="desc">Açıklama</label>
-                <textarea id="desc" formControlName="desc" class="form-control" rows="5"></textarea>
-            </div>
+        <!-- Notification Type Form -->
+        <form [formGroup]="notificationForm">
             <div class="form-group">
                 <label for="notificationType">Bildirim Türü</label>
                 <select id="notificationType" formControlName="notificationType" class="form-control" (change)="onNotificationTypeChange()">
                     <option value="mail">E-Posta</option>
+                    <option value="push">Push Notification</option>
+                    <option value="inapp" disabled>In-App Bildirim (Henüz aktif değil)</option>
                     <option value="sms" disabled>SMS (Henüz aktif değil)</option>
-                    <option value="mobile" disabled>Mobil Bildirim (Henüz aktif değil)</option>
                 </select>
             </div>
+        </form>
+
+        <!-- Mail Form -->
+        <form [formGroup]="mailForm" (ngSubmit)="sendMailNotification()" *ngIf="notificationForm.get('notificationType')?.value === 'mail'">
+            <div class="form-group">
+                <label for="mailTitle">Başlık</label>
+                <input type="text" id="mailTitle" formControlName="mailTitle" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="mailDesc">Açıklama</label>
+                <textarea id="mailDesc" formControlName="mailDesc" class="form-control" rows="5"></textarea>
+            </div>
+
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-3" [disabled]="notificationForm.invalid">Gönder</button>
+                <button type="submit" class="btn btn-primary mt-3" [disabled]="mailForm.invalid">Gönder</button>
+            </div>
+        </form>
+
+        <!-- Push Notification Form -->
+        <form [formGroup]="pushForm" (ngSubmit)="sendPushNotification()" *ngIf="notificationForm.get('notificationType')?.value === 'push'">
+            <div class="form-group">
+                <label for="pushTitle">Başlık</label>
+                <input type="text" id="pushTitle" formControlName="pushTitle" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="pushDesc">Mesaj</label>
+                <textarea id="pushDesc" formControlName="pushDesc" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pushSubTitle">Alt Başlık (Opsiyonel)</label>
+                <input type="text" id="pushSubTitle" formControlName="pushSubTitle" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="iconType">İkon Türü</label>
+                <select id="iconType" formControlName="iconType" class="form-control" (change)="onIconTypeChange()">
+                    <option value="chrome_web_icon">Chrome Web Icon</option>
+                    <option value="large_icon">Large Icon</option>
+                    <option value="ondergrup_logo">ÖnderGrup Logosu</option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="pushForm.get('iconType')?.value === 'ondergrup_logo'">
+                <label>Seçili İkon: ÖnderGrup Logosu</label>
+            </div>
+            <div class="form-group" *ngIf="showIconUrlInput">
+                <label for="icon">İkon URL</label>
+                <input type="text" id="icon" formControlName="icon" class="form-control" />
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3" [disabled]="pushForm.invalid">Gönder</button>
             </div>
         </form>
     </c-card-body>

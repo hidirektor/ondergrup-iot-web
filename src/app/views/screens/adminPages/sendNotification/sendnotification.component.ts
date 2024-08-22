@@ -1,7 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ApiService} from '../../../../services/api.service';
-import {firstValueFrom} from 'rxjs';
+import {firstValueFrom} from "rxjs";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ApiService} from "../../../../services/api.service";
+import {Component, OnInit} from "@angular/core";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {HttpCoreInterceptor} from "../../../../http-core.interceptor";
 import {
   AlertComponent,
   CardBodyComponent,
@@ -9,96 +13,140 @@ import {
   CardFooterComponent,
   CardHeaderComponent
 } from "@coreui/angular";
-import {NgIf} from "@angular/common";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {HttpCoreInterceptor} from "../../../../http-core.interceptor";
 
 @Component({
-  selector: 'app-send-notification',
+  selector: 'app-sendnotification',
   templateUrl: './sendnotification.component.html',
-  standalone: true,
   imports: [
     HttpClientModule,
+    NgClass,
+    NgForOf,
+    DatePipe,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
     CardBodyComponent,
     CardHeaderComponent,
     CardComponent,
-    ReactiveFormsModule,
-    CardFooterComponent,
     AlertComponent,
-    NgIf
+    CardFooterComponent
   ],
   providers: [
     ApiService,
+    NgbModal,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCoreInterceptor,
       multi: true
     }
   ],
-  styleUrls: ['./sendnotification.component.scss']
+  styleUrls: ['./sendnotification.component.scss'],
+  standalone: true
 })
 export class SendNotificationComponent implements OnInit {
-
   public alertMessage: string | null = null;
   public alertColor: string = 'warning';
   public alertVisible: boolean = false;
   public loading: boolean = false;
   public notificationForm: FormGroup;
+  public mailForm: FormGroup;
+  public pushForm: FormGroup;
+  public showIconUrlInput: boolean = false;
 
   constructor(
       private fb: FormBuilder,
       private apiService: ApiService
   ) {
     this.notificationForm = this.fb.group({
-      title: ['', Validators.required],
-      desc: ['', Validators.required],
-      notificationType: ['mail', Validators.required]
+      notificationType: ['mail', Validators.required]  // Varsayılan olarak 'mail' seçili
+    });
+
+    this.mailForm = this.fb.group({
+      mailTitle: ['', Validators.required],
+      mailDesc: ['', Validators.required]
+    });
+
+    this.pushForm = this.fb.group({
+      pushTitle: ['', Validators.required],
+      pushDesc: ['', Validators.required],
+      pushSubTitle: [''],
+      iconType: ['ondergrup_logo', Validators.required],
+      icon: ['logo_appikon']
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.onNotificationTypeChange();
+  }
 
   onNotificationTypeChange(): void {
-    const selectedType = this.notificationForm.get('notificationType')?.value;
-    if (selectedType === 'sms' || selectedType === 'mobile') {
-      this.showAlert('Bu bildirim türü şu anda bakımda.', 'danger');
+    const selectedType = this.mailForm.get('notificationType')?.value;
+
+    if (selectedType === 'push') {
+      this.showIconUrlInput = false;
+      this.onIconTypeChange();
     }
   }
 
-  async sendNotification(): Promise<void> {
-    if (this.notificationForm.invalid) {
-      this.showAlert('Lütfen tüm alanları doldurun.', 'danger');
-      return;
-    }
+  onIconTypeChange(): void {
+    const iconType = this.pushForm.get('iconType')?.value;
 
-    const selectedType = this.notificationForm.get('notificationType')?.value;
-    if (selectedType !== 'mail') {
-      this.showAlert('Seçili bildirim türü şu anda kullanılamıyor.', 'danger');
+    if (iconType === 'ondergrup_logo') {
+      this.showIconUrlInput = false;
+      this.pushForm.get('icon')?.setValue('logo_appikon');
+    } else {
+      this.pushForm.get('icon')?.setValue('');
+      this.pushForm.get('icon')?.setValidators([Validators.required]);
+      this.showIconUrlInput = true;
+    }
+    this.pushForm.updateValueAndValidity();
+  }
+
+  async sendMailNotification(): Promise<void> {
+    if (this.mailForm.invalid) {
+      this.showAlert('Lütfen tüm alanları doldurun.', 'danger');
       return;
     }
 
     this.loading = true;
 
     const token = this.apiService.getToken();
-    const { title, desc, notificationType } = this.notificationForm.value;
-
-    const body = {
-      title,
-      desc,
-      notificationType
-    };
+    const { mailTitle, mailDesc } = this.mailForm.value;
 
     try {
+      const body = { title: mailTitle, desc: mailDesc, notificationType: 'mail' };
       await firstValueFrom(this.apiService.sendAlertMail(token, body));
       this.showAlert('Bildirim başarıyla gönderildi.', 'success');
+      this.mailForm.reset();
+    } catch (error) {
+      console.error('Bildirim gönderilirken hata oluştu:', error);
+      this.showAlert('Bildirim gönderilirken bir hata oluştu.', 'danger');
+    } finally {
+      this.loading = false;
+    }
+  }
 
-      // Başarılı bildirimden sonra formu temizle
-      this.notificationForm.reset({
-        title: '',
-        desc: '',
-        notificationType: 'mail'  // Varsayılan değer
-      });
+  async sendPushNotification(): Promise<void> {
+    if (this.pushForm.invalid) {
+      this.showAlert('Lütfen tüm alanları doldurun.', 'danger');
+      return;
+    }
 
+    this.loading = true;
+
+    const token = this.apiService.getToken();
+    const { pushTitle, pushDesc, pushSubTitle, iconType, icon } = this.pushForm.value;
+
+    try {
+      let body;
+      if(iconType === 'ondergrup_logo') {
+        body = { heading: pushTitle, message: pushDesc, subtitle: pushSubTitle, iconType: "small_icon", icon };
+      } else {
+        body = { heading: pushTitle, message: pushDesc, subtitle: pushSubTitle, iconType, icon };
+      }
+      await firstValueFrom(this.apiService.sendNotification(token, body));
+      this.showAlert('Bildirim başarıyla gönderildi.', 'success');
+      this.pushForm.reset();
     } catch (error) {
       console.error('Bildirim gönderilirken hata oluştu:', error);
       this.showAlert('Bildirim gönderilirken bir hata oluştu.', 'danger');

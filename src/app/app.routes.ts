@@ -1,14 +1,11 @@
 import {Routes} from '@angular/router';
 import {DefaultLayoutComponent} from './layout';
-import {LandingComponent} from "./views/screens/landing/landing.component";
 
 export const routes: Routes = [
   {
     path: '',
-    component: LandingComponent, // Direkt landing component gösteriliyor
-    data: {
-      title: 'Landing'
-    }
+    redirectTo: 'landing',
+    pathMatch: 'full'
   },
   {
     path: '',

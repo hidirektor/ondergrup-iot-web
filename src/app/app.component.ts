@@ -13,7 +13,8 @@ import {CookieService} from "ngx-cookie-service";
   imports: [RouterOutlet]
 })
 export class AppComponent implements OnInit {
-  title = 'ÖnderGrup IoT Yönetim Paneli';
+  title = 'ÖnderGrup - IoT';
+  loading = true;
 
   private appVersion = '22.08.24';
 
@@ -40,6 +41,11 @@ export class AppComponent implements OnInit {
       this.clearCookies();
       this.cookieService.set('appVersion', this.appVersion);
     }
+
+    setTimeout(() => {
+      this.loading = false;
+      this.router.navigate(['/landing']);
+    }, 2000);
   }
 
   private clearCookies() {

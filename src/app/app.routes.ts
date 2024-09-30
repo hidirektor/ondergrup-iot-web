@@ -1,17 +1,20 @@
 import {Routes} from '@angular/router';
 import {DefaultLayoutComponent} from './layout';
+import {LandingComponent} from "./views/screens/landing/landing.component";
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    component: LandingComponent, // Direkt landing component gösteriliyor
+    data: {
+      title: 'Landing'
+    }
   },
   {
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Anasayfa'
+      title: 'Anasayfa',
     },
     children: [
       {
@@ -117,6 +120,13 @@ export const routes: Routes = [
     loadComponent: () => import('./views/screens/generalPages/page404/page404.component').then(m => m.Page404Component),
     data: {
       title: 'Page 404'
+    }
+  },
+  {
+    path: 'landing',
+    loadComponent: () => import('./views/screens/landing/landing.component').then(m => m.LandingComponent),
+    data: {
+      title: 'Landing'
     }
   },
   {

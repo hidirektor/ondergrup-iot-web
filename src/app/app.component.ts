@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.loading = false;
       this.router.navigate(['/landing']);
-    }, 2000);
+    });
   }
 
   private clearCookies() {

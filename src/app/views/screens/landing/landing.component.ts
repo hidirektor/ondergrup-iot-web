@@ -22,9 +22,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.loadStyles();
     this.router.events.pipe(
         filter(event => event instanceof NavigationStart)
-    ).subscribe(event => {
-      console.log('Yönlendirme başlıyor', event);
-    });
+    ).subscribe(event => {});
   }
 
   // Component yok edildiğinde script ve CSS'leri kaldıralım

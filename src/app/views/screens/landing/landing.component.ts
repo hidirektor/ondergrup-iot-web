@@ -92,4 +92,12 @@ export class LandingComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  redirectToRegister() {
+    if(this.router.url !== '/register') {
+      this.router.navigate(['/register']).catch(err => {
+        console.error('Yönlendirme hatası: ', err);
+      })
+    }
+  }
 }

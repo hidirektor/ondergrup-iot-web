@@ -8,9 +8,10 @@ import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet />',
+  template: '<router-outlet></router-outlet>',
   standalone: true,
-  imports: [RouterOutlet]
+  imports: [RouterOutlet],
+  styleUrls: ['./../assets/css/main.css']
 })
 export class AppComponent implements OnInit {
   title = 'ÖnderGrup - IoT';
@@ -32,6 +33,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
+        setTimeout(() => {
+          this.hidePreloader();
+        }, 1000);
         return;
       }
     });
@@ -41,11 +45,13 @@ export class AppComponent implements OnInit {
       this.clearCookies();
       this.cookieService.set('appVersion', this.appVersion);
     }
+  }
 
-    setTimeout(() => {
-      this.loading = false;
-      this.router.navigate(['/landing']);
-    });
+  hidePreloader() {
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+      preloader.classList.add('hidden'); // CSS'de "hidden" ile preloader gizlenir
+    }
   }
 
   private clearCookies() {
